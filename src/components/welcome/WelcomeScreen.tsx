@@ -37,7 +37,7 @@ const WelcomeScreen: React.FC<{ onStart: () => void }> = ({ onStart }) => {
 
         <div className="relative z-[2] flex max-w-4xl flex-col items-center px-4">
           <h1 className={`text-6xl sm:text-8xl font-extrabold ${themeClasses.text.primary} tracking-tight mt-6 mb-6 leading-none drop-shadow-md animate-fade-in-up`}>
-            Quel est votre profils politique ?
+            Quel est votre profil politique ?
           </h1>
 
           <p className={`text-lg ${themeClasses.text.secondary} max-w-2xl mx-auto leading-snug drop-shadow-md animate-fade-in-up delay-100`}>
