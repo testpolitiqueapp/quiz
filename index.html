@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    
+    <link rel="icon" href="/icons/favicon.ico" sizes="any">
+    <link rel="icon" type="image/svg+xml" href="/icons/favicon.svg">
+    <link rel="icon" type="image/png" sizes="32x32" href="/icons/icon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/icons/icon-16x16.png">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    
+    <meta name="theme-color" content="#f1f5f9" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#242d40" media="(prefers-color-scheme: dark)">
+    
+    <title>TestPolitique.app</title>
+    
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://testpolitique.app" />
+    <meta property="og:title" content="Quel est ton positionnement politique ? Fais le test !" />
+    <meta property="og:description" content="Je viens de faire ce test, essaie-le aussi pour voir tes résultats et découvrir ton parti le plus proche." />
+    <meta property="og:image" content="https://testpolitique.app/images/share_image.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content="https://testpolitique.app" />
+    <meta name="twitter:title" content="Quel est ton positionnement politique ? Fais le test !" />
+    <meta name="twitter:description" content="Je viens de faire ce test, essaie-le aussi pour voir tes résultats et découvrir ton parti le plus proche." />
+    <meta name="twitter:image" content="https://testpolitique.app/images/share_image.jpg" />
+
+    <link rel="manifest" href="/manifest.json" />
+    
+    <link rel="apple-touch-icon" href="/icons/apple-touch-icon-180x180.png">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    
+    <script>
+      (function() {
+        const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        document.documentElement.classList.add(isDark ? 'dark' : 'light');
+        document.documentElement.style.colorScheme = isDark ? 'dark' : 'light';
+        
+        document.documentElement.style.backgroundColor = isDark ? '#242d40' : '#f1f5f9';
+      })();
+    </script>
+    
+    <style>
+      .static-loader {
+        position: fixed;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .spinner {
+        border: 4px solid rgba(128, 128, 128, 0.3);
+        border-left-color: #115efc;
+        border-radius: 50%;
+        width: 50px;
+        height: 50px;
+        animation: spin 1s linear infinite;
+      }
+      @keyframes spin {
+        to { transform: rotate(360deg); }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root">
+      <div class="static-loader">
+        <div class="spinner"></div>
+      </div>
+    </div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

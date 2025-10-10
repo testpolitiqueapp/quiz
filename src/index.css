@@ -1,0 +1,257 @@
+@import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800;900&display=swap');
+
+/* Variables CSS pour les thèmes */
+:root {
+  --color-scheme: light;
+  color-scheme: var(--color-scheme);
+}
+
+:root.dark {
+  --color-scheme: dark;
+}
+
+:root.light {
+  --color-scheme: light;
+}
+
+
+body {
+  font-family: "Poppins", ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  
+  background-color: #242d40; 
+  color: #f1f5f9;
+}
+
+.light body {
+  background-color: #f1f5f9; 
+  color: #242d40; 
+}
+
+.text-balance {
+  text-wrap: balance;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* ====================================================================== */
+/* Animations Globales */
+/* ====================================================================== */
+
+.card-animation {
+  opacity: 0; 
+}
+
+@keyframes deal-in-animation {
+  0% {
+    opacity: 0;
+    transform: translateY(-20px) translateX(-5px) rotate(-1deg) scale(0.9);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) translateX(0) rotate(0deg) scale(1);
+  }
+}
+
+@keyframes exit-fade-animation {
+  0% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-5px) scale(0.98); 
+  }
+}
+
+.card-deal-in {
+  animation: deal-in-animation 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards; 
+}
+
+.card-exit-fade {
+  animation: exit-fade-animation 0.15s ease-out forwards; 
+}
+
+.theme-item-entry {
+  animation: fadeInUp 0.6s ease-out forwards;
+  opacity: 0;
+}
+
+
+/* Styles et Animations WelcomeScreen */
+.welcome-background {
+  background-image: url('/images/assemblee-min.webp');
+  background-size: cover;
+  background-position: center;
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  opacity: 0.25;
+  transform: scale(1.05);
+  mask-image: radial-gradient(ellipse at center, white 20%, transparent 70%);
+  -webkit-mask-image: radial-gradient(ellipse at center, white 20%, transparent 70%);
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeInScale {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.animate-fade-in-up { animation: fadeInUp 0.6s ease-out forwards; opacity: 0; }
+.animate-fade-in-scale { animation: fadeInScale 0.5s ease-out forwards; opacity: 0; }
+
+.delay-100 { animation-delay: 0.1s; }
+.delay-200 { animation-delay: 0.2s; }
+.delay-300 { animation-delay: 0.3s; }
+.delay-400 { animation-delay: 0.4s; }
+
+
+/* ====================================================================== */
+/* Animations de Transition de Questions (QuizScreen) */
+/* ====================================================================== */
+
+.question-entry-transition, .question-exit-transition, 
+.question-back-entry-transition, .question-back-exit-transition {
+    transform-style: preserve-3d; 
+    perspective: 1000px; 
+}
+
+.question-entry-transition {
+  transition: opacity 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  opacity: 1;
+  transform: scale(1) rotateY(0deg) translateX(0px);
+}
+
+.question-exit-transition {
+  transition: opacity 0.2s ease-in, transform 0.2s ease-in; 
+  opacity: 0;
+  transform: scale(0.9) rotateY(-5deg) translateY(-5px) translateX(-5px);
+}
+
+
+.question-back-entry-transition {
+  transition: opacity 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  opacity: 1;
+  transform: scale(1) rotateY(0deg) translateX(0px);
+}
+
+.question-back-exit-transition {
+  transition: opacity 0.2s ease-in, transform 0.2s ease-in; 
+  opacity: 0;
+  transform: scale(0.9) rotateY(5deg) translateY(-5px) translateX(5px);
+}
+
+@keyframes slideInBounce {
+  0% {
+    opacity: 0;
+    transform: translateY(30px) scale(0.98);
+  }
+  60% {
+    opacity: 1;
+    transform: translateY(-5px) scale(1);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.quiz-initial-entry {
+  animation: slideInBounce 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+  opacity: 0;
+}
+
+
+/* ====================================================================== */
+/* Animations Résultats (ResultScreen & ProfileHeader) */
+/* ====================================================================== */
+
+@keyframes wave {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  30% {
+    transform: scale(1.8);
+    opacity: 0.8;
+  }
+  70% {
+    transform: scale(2.8);
+    opacity: 0.3;
+  }
+  100% {
+    transform: scale(3.5);
+    opacity: 0;
+  }
+}
+
+.animate-wave-1 { animation: wave 4s ease-out infinite; }
+.animate-wave-2 { animation: wave 4s ease-out infinite 1s; }
+.animate-wave-3 { animation: wave 4s ease-out infinite 2s; }
+
+@keyframes profileEntrySlide {
+    0% { 
+        opacity: 0; 
+        transform: translateY(40px) rotateX(-15deg) scale(0.95); 
+    }
+    70% { 
+        opacity: 1; 
+        transform: translateY(-5px) rotateX(0deg) scale(1.01); 
+    }
+    100% { 
+        opacity: 1; 
+        transform: translateY(0) rotateX(0deg) scale(1); 
+    }
+}
+
+.profile-entry-slide {
+    animation: profileEntrySlide 1s cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.2s forwards; 
+    opacity: 0;
+}
+
+@keyframes shake-n-pulse {
+  0%, 100% {
+    transform: scale(1) rotate(0deg);
+  }
+  20%, 60% {
+    transform: scale(1.05) rotate(2deg); 
+  }
+  40%, 80% {
+    transform: scale(1.05) rotate(-2deg); 
+  }
+}
+
+.animate-shake-n-pulse {
+  animation: shake-n-pulse 1.2s ease-in-out infinite; 
+  transform-origin: center; 
+}
+
+@keyframes pop-in-bounce {
+  0% {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+  80% {
+    opacity: 1;
+    transform: scale(1.1); 
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.animate-pop-in-bounce {
+  animation: pop-in-bounce 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+.animate-progress-fill {
+  transition: width 1s ease-out; 
+}
