@@ -35,10 +35,10 @@ const WelcomeScreen: React.FC<{ onStart: () => void }> = ({ onStart }) => {
       <div className="relative flex min-h-[600px] w-full flex-col items-center justify-center overflow-hidden text-center">
         <div className="welcome-background"></div> 
 
-        <div className="relative z-[2] flex max-w-4xl flex-col items-center px-4">
-          <h1 className={`text-6xl sm:text-8xl font-extrabold ${themeClasses.text.primary} tracking-tight mt-6 mb-6 leading-none drop-shadow-md animate-fade-in-up`}>
-            Quel est votre profil politique ?
-          </h1>
+        <div className="relative z-[2] flex max-w-4xl flex-col items-center px-1">
+          <h1 className={`text-6xl sm:text-8xl font-extrabold ${themeClasses.text.primary} tracking-tight mt-6 mb-6 leading-none drop-shadow-md animate-fade-in-up text-balance`}>
+  Quel est votre profil politique ?
+</h1>
 
           <p className={`text-lg ${themeClasses.text.secondary} max-w-2xl mx-auto leading-snug drop-shadow-md animate-fade-in-up delay-100`}>
             Notre algorithme analyse vos réponses pour vous situer dans le paysage politique français.
@@ -65,7 +65,7 @@ const WelcomeScreen: React.FC<{ onStart: () => void }> = ({ onStart }) => {
             <InviteButton variant="tertiary" />
           </div>
 
-          <div className={`flex flex-wrap items-center justify-center gap-x-4 gap-y-1 text-sm ${themeClasses.text.secondary} font-medium mt-6 drop-shadow-md animate-fade-in-up delay-400`}>
+          <div className={`flex flex-wrap items-center justify-center gap-x-4 gap-y-1 text-xs ${themeClasses.text.secondary} font-medium mt-6 drop-shadow-md animate-fade-in-up delay-400`}>
             <CheckItem text="Analyse gratuite en 5 minutes" />
             <CheckItem text="Résultats instantanés" />
             <CheckItem text="Aucune donnée personnelle collectée" />

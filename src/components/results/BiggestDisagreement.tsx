@@ -50,7 +50,7 @@ export const BiggestDisagreement: React.FC<BiggestDisagreementProps> = ({
         <GlassTile partyId={party.id} isDark={isDark} className="overflow-hidden p-6 sm:p-8">
             <div className="text-center mb-8">
                 <h2 className={twMerge(
-                    "text-xl font-semibold mb-2",
+                    "text-xl font-semibold mb-2 tracking-tight",
                     themeClasses.text.secondary
                 )}>
                     Votre parti le plus éloigné :
@@ -64,14 +64,14 @@ export const BiggestDisagreement: React.FC<BiggestDisagreementProps> = ({
                 </h1>
                 
                 <p className={twMerge(
-                    "text-base max-w-2xl mx-auto leading-relaxed",
+                    "text-base max-w-2xl mx-auto leading-snug",
                     themeClasses.text.secondary
                 )}>
                     Le parti avec lequel vous êtes le moins d'accord sur les sujets abordés
                 </p>
             </div>
 
-            <div className="flex items-center justify-center gap-6 mb-8">
+            <div className="flex items-center justify-center gap-3 mb-8">
                 <div className="relative group">
                     <div className={twMerge(
                         "relative w-32 h-32 sm:w-40 sm:h-40 rounded-3xl overflow-hidden",
@@ -111,7 +111,7 @@ export const BiggestDisagreement: React.FC<BiggestDisagreementProps> = ({
             </div>
 
             <div className={twMerge(
-                "flex flex-wrap justify-center items-center gap-3"
+                "flex flex-wrap justify-center items-center gap-2"
             )}>
                 <div className={twMerge(
                     "group relative px-4 py-2 rounded-full",

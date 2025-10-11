@@ -16,7 +16,7 @@ export const AnalysisHeader: React.FC<AnalysisHeaderProps> = ({ isAnalysisComple
   return (
     <div
       className={twMerge(
-        "w-full max-w-lg mx-auto mb-7 mt-3 transition-opacity duration-500", 
+        "w-full max-w-lg mx-auto mb-8 mt-3 transition-opacity duration-500", 
         isAnalysisComplete ? 'opacity-100' : 'opacity-0'
       )}
     >

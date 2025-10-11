@@ -54,7 +54,7 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
     >
       <div className="text-center mb-8">
         <h2 className={twMerge(
-          "text-xl font-semibold mb-3 transition-all duration-500",
+          "text-xl font-semibold mb-3 transition-all duration-500 tracking-tight",
           themeClasses.text.secondary
         )}>
           Votre parti le plus proche :
@@ -68,14 +68,14 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
         </h1>
         
         <p className={twMerge(
-          "text-base max-w-2xl mx-auto leading-relaxed transition-all duration-700",
+          "text-base max-w-2xl mx-auto leading-snug transition-all duration-700",
           themeClasses.text.secondary
         )}>
           {finalProfile.description}
         </p>
       </div>
 
-      <div className="flex items-center justify-center gap-6 mb-8">
+      <div className="flex items-center justify-center gap-3 mb-8">
         <div className="relative group">
           <div className={twMerge(
             "relative w-32 h-32 sm:w-40 sm:h-40 rounded-3xl overflow-hidden",
@@ -154,7 +154,7 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
       </div>
 
       <div className={twMerge(
-        "flex flex-wrap justify-center items-center gap-3 transition-all duration-800"
+        "flex flex-wrap justify-center items-center gap-2 transition-all duration-800"
       )}>
         <div className={twMerge(
           "group relative px-4 py-2 rounded-full",

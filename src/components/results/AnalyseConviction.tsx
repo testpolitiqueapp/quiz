@@ -35,14 +35,10 @@ interface ConvictionStyles {
 const AnimatedConvictionCard: React.FC<{ conviction: ConvictionData; type: 'strong' | 'hesitant'; isDark: boolean; themeClasses: AnalyseConvictionProps['themeClasses'] }> = ({ conviction, type, isDark, themeClasses }) => {
   const { question, answer, time } = conviction;
 
-  // NOUVEAU: État du compteur (commence à 0)
   const [count, setCount] = useState(0); 
-  // NOUVEAU: Référence et état pour l'animation au scroll
   const badgeRef = useRef<HTMLDivElement>(null); 
   const [isInView, setIsInView] = useState(false);
 
-
-  // NOUVEAU: Logique de l'Intersection Observer (déclenchement du comptage au scroll)
   useEffect(() => {
     const currentRef = badgeRef.current;
     if (!currentRef) return;
@@ -70,12 +66,11 @@ const AnimatedConvictionCard: React.FC<{ conviction: ConvictionData; type: 'stro
     };
   }, []);
 
-  // NOUVEAU: Logique d'animation du compteur (déclenchée par isInView)
   useEffect(() => {
       if (!isInView) return;
 
       const finalTime = time / 1000;
-      const duration = 500; // 0.5 seconde (rapide)
+      const duration = 500; 
       let startTimestamp: DOMHighResTimeStamp | null = null;
 
       const step: FrameRequestCallback = (timestamp) => {
@@ -83,7 +78,6 @@ const AnimatedConvictionCard: React.FC<{ conviction: ConvictionData; type: 'stro
           const progress = timestamp - startTimestamp;
           const fraction = Math.min(progress / duration, 1);
           
-          // Calcul de la valeur avec deux décimales
           const currentValue = (fraction * finalTime).toFixed(2);
           setCount(parseFloat(currentValue));
 
@@ -97,11 +91,8 @@ const AnimatedConvictionCard: React.FC<{ conviction: ConvictionData; type: 'stro
       return () => setCount(0); 
   }, [isInView, time]);
   
-  // Afficher la valeur du compteur ou 0.00s si l'animation n'a pas commencé
   const displayedTime = (count || 0).toFixed(2);
   
-  // --- Le reste de la logique ConvictionCard (inchangée) ---
-
   const strongAnswers: {[key: number]: ConvictionStyles} = {
     2: { text: "Tout à fait d'accord", Icon: ThumbsUp, colors: { bg: isDark ? "bg-slate-800/60 border-slate-700/50" : "bg-white border-slate-200/80", badge: isDark ? "bg-emerald-900/40 text-emerald-300 ring-1 ring-emerald-700/30" : "bg-emerald-100 text-emerald-700 ring-1 ring-emerald-200/50", iconContainer: "bg-gradient-to-br from-emerald-500 to-emerald-600" } },
     [-2]: { text: "Pas du tout d'accord", Icon: ThumbsDown, colors: { bg: isDark ? "bg-slate-800/60 border-slate-700/50" : "bg-white border-slate-200/80", badge: isDark ? "bg-red-900/40 text-red-300 ring-1 ring-red-700/30" : "bg-red-100 text-red-700 ring-1 ring-red-200/50", iconContainer: "bg-gradient-to-br from-red-500 to-rose-600" } },
@@ -137,13 +128,12 @@ const AnimatedConvictionCard: React.FC<{ conviction: ConvictionData; type: 'stro
             />
           </div>
           <div className="flex-1 min-w-0">
-            <h4 className={twMerge("font-bold text-lg leading-tight", themeClasses.text.primary)}>{answerText}</h4>
+            <h4 className={twMerge("font-bold text-lg leading-snug", themeClasses.text.primary)}>{answerText}</h4>
             <div 
               className={twMerge("mt-2 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold tracking-wide", colorClasses.badge)}
-              ref={badgeRef} // AJOUTÉ: Référence pour l'Intersection Observer
+              ref={badgeRef}
             >
               <Clock className="w-3.5 h-3.5" />
-              {/* MODIFIÉ: Affiche la valeur animée */}
               <span>{displayedTime}s</span> 
             </div>
           </div>
@@ -175,35 +165,51 @@ const AnalyseConviction: React.FC<AnalyseConvictionProps> = ({ strongestConvicti
 
   return (
     <GlassTile className="overflow-hidden p-0">
-      {/* Header */}
-      <div className="relative p-6 pb-4">
+      {/* NOUVEAU HEADER (Compact et Cohérent) */}
+      <div className="relative p-4 pb-3 sm:p-6 sm:pb-4">
         <div className="flex items-start gap-4">
+          
+          {/* Bloc Icône (Style Amélioré cohérent) */}
           <div className={twMerge(
-            "relative flex items-center justify-center w-10 h-10 rounded-2xl shadow-lg transition-all duration-300",
-            "ring-1 ring-white/10",
+            "relative flex items-center justify-center w-10 h-10 rounded-2xl shadow-lg",
             "bg-gradient-to-br from-blue-500 to-indigo-600",
-            "hover:scale-105 hover:shadow-xl hover:shadow-blue-500/30",
-            "ring-1 ring-blue-500/20"
+            "ring-1 ring-blue-500/20",
+            "flex-shrink-0",
+            // Style de l'icône amélioré (cohérent)
+            "transform transition-all duration-300 ease-out", 
+            "before:absolute before:inset-0 before:rounded-2xl", 
+            "before:bg-gradient-to-br before:from-white/40 before:to-transparent",
+            "before:opacity-0 hover:before:opacity-100 before:transition-opacity before:duration-300", 
+            "dark:before:from-white/10 dark:before:opacity-20 dark:hover:before:opacity-30",
+            "shadow-blue-500/40 dark:shadow-indigo-700/40", 
+            "hover:shadow-blue-600/60 dark:hover:shadow-indigo-600/60"
           )}>
             <ChartBar className="w-6 h-6 text-white drop-shadow-sm" />
-            <div className="absolute inset-0 rounded-2xl bg-gradient-to-tr from-white/20 to-transparent opacity-60" />
           </div>
+          
           <div className="flex-1 min-w-0">
-            <h3 className={twMerge("text-2xl font-bold mb-1 tracking-tight", themeClasses.text.primary)}>Analyse des réponses</h3>
-            <p className={twMerge("text-sm", themeClasses.text.secondary)}>Vos convictions et hésitations</p>
+            {/* Titre Principal (compact) */}
+            <h3 className={twMerge("text-xl font-bold tracking-tight leading-snug", themeClasses.text.primary)}>
+              Analyse des convictions
+            </h3>
+            {/* Sous-titre explicatif (compact) */}
+            <p className={twMerge("text-xs mt-0.5", themeClasses.text.secondary)}>
+              Vos réponses les plus rapides et les plus lentes.
+            </p>
           </div>
         </div>
       </div>
+      {/* FIN NOUVEAU HEADER */}
       
-      {/* Onglets */}
-      <div className="px-5">
+      {/* Onglets (Marge supérieure ajustée) */}
+      <div className="px-5 pb-4">
         <div className={twMerge("flex gap-2 p-1 rounded-xl", isDark ? 'bg-slate-900/50' : 'bg-slate-200/70')}>
           {tabs.map(tab => (
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id as 'strong' | 'hesitant')}
               className={twMerge(
-                "w-full flex items-center justify-center gap-2 px-3 py-2 rounded-lg text-sm font-semibold transition-all duration-300",
+                "w-full flex items-center justify-center gap-2 px-2 py-2 rounded-lg text-sm font-semibold transition-all duration-300",
                 activeTab === tab.id
                   ? (isDark ? 'bg-slate-700/80 text-white shadow-md' : 'bg-white text-slate-800 shadow-md')
                   : (tab.data ? (isDark ? 'text-slate-400 hover:bg-slate-800/50' : 'text-slate-600 hover:bg-slate-300/50') : 'text-slate-500 opacity-50 cursor-not-allowed')
@@ -218,9 +224,8 @@ const AnalyseConviction: React.FC<AnalyseConvictionProps> = ({ strongestConvicti
       </div>
 
       {/* Contenu des onglets */}
-      <div className="px-5 pb-6 pt-4">
+      <div className="px-5 pb-6">
         {currentTab?.data ? (
-          // MODIFIÉ: Utilisation du nouveau sous-composant
           <AnimatedConvictionCard conviction={currentTab.data} type={currentTab.id as 'strong' | 'hesitant'} isDark={isDark} themeClasses={themeClasses} />
         ) : (
           <div className={twMerge("relative p-6 rounded-2xl text-center", isDark ? "bg-slate-800/40" : "bg-slate-100/80")}>

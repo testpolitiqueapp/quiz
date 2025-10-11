@@ -146,7 +146,7 @@ export const AnswerButton: React.FC<AnswerButtonProps> = ({
                 )}
                 
                 <div className={twMerge(
-                    'text-xs sm:text-sm font-medium text-center leading-tight tracking-tighter relative z-10',
+                    'text-xs sm:text-sm font-medium text-center leading-tight -tracking-wider relative z-10',
                     'transition-all duration-300 ease-out',
                     getTextColor(isSelected),
                     isSelected && 'font-semibold'

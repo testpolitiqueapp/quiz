@@ -127,29 +127,43 @@ const TempsDeReponse: React.FC<TempsDeReponseProps> = ({ averageTime, isDark, th
 
   return (
     <GlassTile className="overflow-hidden p-0">
-      <div className="relative p-6 pb-4">
-        <div className="flex items-start gap-4">
+      
+      {/* HEADER COHÉRENT ET CORRIGÉ */}
+      <div className="relative p-4 pb-0 sm:p-6 sm:pb-0">
+        <div className="flex items-center gap-4 mb-3">
+          
+          {/* Bloc Icône (Style Amélioré cohérent) */}
           <div className={twMerge(
-            "relative flex items-center justify-center w-10 h-10 rounded-2xl shadow-lg transition-all duration-300",
-            "ring-1 ring-white/10", "bg-gradient-to-br from-blue-500 to-indigo-600",
-            "hover:scale-105 hover:shadow-xl hover:shadow-blue-500/30", "ring-1 ring-blue-500/20"
+            "relative flex items-center justify-center w-10 h-10 rounded-2xl shadow-lg",
+            "bg-gradient-to-br from-blue-500 to-indigo-600",
+            "ring-1 ring-blue-500/20",
+            "flex-shrink-0",
+            "transform transition-all duration-300 ease-out", 
+            "before:absolute before:inset-0 before:rounded-2xl", 
+            "before:bg-gradient-to-br before:from-white/40 before:to-transparent",
+            "before:opacity-0 hover:before:opacity-100 before:transition-opacity before:duration-300", 
+            "dark:before:from-white/10 dark:before:opacity-20 dark:hover:before:opacity-30",
+            "shadow-blue-500/40 dark:shadow-indigo-700/40", 
+            "hover:shadow-blue-600/60 dark:hover:shadow-indigo-600/60"
           )}>
             <Clock className="w-6 h-6 text-white drop-shadow-sm" />
-            <div className="absolute inset-0 rounded-2xl bg-gradient-to-tr from-white/20 to-transparent opacity-60" />
           </div>
           
           <div className="flex-1 min-w-0">
-            <h3 className={twMerge("text-2xl font-bold mb-1 tracking-tight", themeClasses.text.primary)}>
+            {/* Titre Principal (compact) */}
+            <h3 className={twMerge("text-xl font-bold tracking-tight leading-snug", themeClasses.text.primary)}>
               Temps de réponse
             </h3>
-            <p className={twMerge("text-sm leading-relaxed", themeClasses.text.secondary)}>
+            {/* Sous-titre explicatif (CORRIGÉ: Affiche la description du profil de vitesse) */}
+            <p className={twMerge("text-xs mt-0.5", themeClasses.text.secondary)}>
               {speedProfile.description}
             </p>
           </div>
         </div>
       </div>
-
-      <div className="px-5 pb-6">
+      {/* FIN HEADER */}
+      
+      <div className="px-5 pb-6 pt-4"> 
         <div 
           className={twMerge(
             "group relative p-6 rounded-2xl border text-center",

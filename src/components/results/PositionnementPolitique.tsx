@@ -24,7 +24,7 @@ const segments = [
   { orientation: "Gauche écologiste",    color: "#f2008e", width: segmentWidth },
   { orientation: "Gauche",               color: "#f800ef", width: segmentWidth },
   { orientation: "Centre gauche",        color: "#de00f8", width: segmentWidth },
-  { orientation: "Centre",               color: "#9200f8", width: segmentWidth },
+  { orientation: "Centre",               color: "#9200f8", width: segmentWidth }, // Index 5 pour l'orientation
   { orientation: "Centre droit",         color: "#4c00f8", width: segmentWidth },
   { orientation: "Droite",               color: "#023aef", width: segmentWidth },
   { orientation: "Droite souverainiste", color: "#0223ef", width: segmentWidth },
@@ -44,22 +44,17 @@ export const PositionnementPolitique: React.FC<PositionnementPolitiqueProps> = (
 
   // --- GESTION DES ANIMATIONS ---
   const [isMounted, setIsMounted] = useState(false);
-  const [isCursorVisible, setIsCursorVisible] = useState(false); // NOUVEAU : état pour l'animation du curseur
+  const [isCursorVisible, setIsCursorVisible] = useState(false);
   const [showWaves, setShowWaves] = useState(false);
 
   useEffect(() => {
-    // Déclenche l'animation principale du composant
     const mountTimer = setTimeout(() => setIsMounted(true), 100);
-    
-    // NOUVEAU : Déclenche l'animation du curseur avec un léger délai
     const cursorTimer = setTimeout(() => setIsCursorVisible(true), 300);
-
-    // Déclenche l'animation des ondes du curseur (après les autres animations)
     const wavesTimer = setTimeout(() => setShowWaves(true), 800);
 
     return () => {
       clearTimeout(mountTimer);
-      clearTimeout(cursorTimer); // NOUVEAU : Nettoyage du timer
+      clearTimeout(cursorTimer);
       clearTimeout(wavesTimer);
     };
   }, []);
@@ -85,45 +80,65 @@ export const PositionnementPolitique: React.FC<PositionnementPolitiqueProps> = (
   const legendLabels = ['Ext. Gauche', 'Gauche', 'Centre', 'Droite', 'Ext. Droite'];
 
   const majorTickIndices = useMemo(() => {
-    return [0, 3, 6, 9, 11];
+    return [0, 3, 6, 9, 11]; // 6 correspond au repère "Centre"
   }, []);
 
   const cursorSizeClasses = "w-5 h-5";
   const cursorInnerSizeClasses = "w-2 h-2";
   const waveSizeClasses = "w-5 h-5";
 
+  const badgeClasses = "px-2 py-0.5 rounded-full text-m font-bold ring-1";
+  const badgeColorClasses = isDark 
+    ? "bg-indigo-900/40 text-indigo-300 ring-indigo-900/40" 
+    : "bg-indigo-100 text-indigo-700 ring-indigo-100";
+
 
   return (
     <GlassTile className={twMerge(
-        "relative p-6",
+        "relative p-4 sm:p-6", 
         "transition-all duration-700 ease-out",
         !isMounted ? "opacity-0 translate-y-5 scale-95" : "opacity-100 translate-y-0 scale-100"
     )}>
-      {/* Header */}
-      <div className="mb-6 flex items-start gap-4">
+      
+      {/* NOUVEAU HEADER (Ultra-Compact) */}
+      <div className="flex items-center gap-4 mb-4">
+        
         <div
           className={twMerge(
             "relative flex flex-shrink-0 items-center justify-center w-10 h-10 rounded-2xl shadow-lg",
             "bg-gradient-to-br from-blue-500 to-indigo-600",
             "ring-1 ring-blue-500/20",
-            "transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-blue-500/30"
+            "flex-shrink-0",
+            "transform transition-all duration-300 ease-out",
+            "before:absolute before:inset-0 before:rounded-2xl",
+            "before:bg-gradient-to-br before:from-white/40 before:to-transparent",
+            "before:opacity-0 hover:before:opacity-100 before:transition-opacity before:duration-300",
+            "dark:before:from-white/10 dark:before:opacity-20 dark:hover:before:opacity-30",
+            "shadow-blue-500/40 dark:shadow-indigo-700/40",
+            "hover:shadow-blue-600/60 dark:hover:shadow-indigo-600/60"
           )}
         >
           <MapPinCheckInside className="w-6 h-6 text-white drop-shadow-sm" />
-          <div className="absolute inset-0 rounded-2xl bg-gradient-to-tr from-white/20 to-transparent opacity-60" />
         </div>
-        <div>
-          <h3 className={twMerge("text-2xl font-bold tracking-tight", themeClasses.text.primary)}>
+        
+        <div className="flex-1 min-w-0">
+          <h3 className={twMerge("text-xl font-bold tracking-tight leading-snug", themeClasses.text.primary)}>
             Votre orientation
           </h3>
-          <p className={twMerge("text-lg font-semibold leading-tight mt-1", themeClasses.text.secondary)}>
+          
+          <div className={twMerge(
+            "inline-block mt-1",
+            badgeClasses,
+            badgeColorClasses
+          )}>
             {orientation}
-          </p>
+          </div>
         </div>
       </div>
-
+      {/* FIN NOUVEAU HEADER */}
+      
       {/* Jauge */}
-      <div className="w-full rounded-full border border-slate-200/60 dark:border-slate-700/60 p-1">
+      <div className="w-full rounded-full border border-slate-200/60 dark:border-slate-700/60 p-1 mt-6"> 
         <div className="relative h-2">
           <div
             className="h-full w-full rounded-full shadow-inner"
@@ -134,9 +149,7 @@ export const PositionnementPolitique: React.FC<PositionnementPolitiqueProps> = (
           <div
             className={twMerge(
                 "absolute top-1/2 -translate-y-1/2 -translate-x-1/2",
-                // Transition pour le déplacement (si orientation change) ET pour l'apparition
                 "transition-all duration-700 ease-out", 
-                // État initial de l'animation d'apparition
                 !isCursorVisible ? "opacity-0 scale-50" : "opacity-100 scale-100"
             )}
             style={{ left: `${finalPositionPercentage}%` }}
@@ -171,18 +184,22 @@ export const PositionnementPolitique: React.FC<PositionnementPolitiqueProps> = (
           {ticks.map(({ left, index }) => {
             const isMajorTick = majorTickIndices.includes(index);
             
+            // Si le tick correspond au Centre (index 6), forcer le positionnement à 50%
+            const positionStyle = index === 6 ? { left: `50%` } : { left: `${left}%` };
+
             return (
               <span
                 key={index}
                 className={twMerge(
                   "absolute bottom-0 w-px rounded-full",
+                  // Appliquer -translate-x-1/2 uniquement si ce n'est pas les extrémités (0 et totalSegments)
                   index !== 0 && index !== totalSegments ? "-translate-x-1/2" : "", 
                   isMajorTick
                     ? twMerge("h-3 w-0.5", isDark ? "bg-slate-400" : "bg-slate-500") 
                     : twMerge("h-1.5 w-px", isDark ? "bg-slate-600/60" : "bg-slate-400/70"), 
                   "transition-all duration-200 ease-out"
                 )}
-                style={{ left: `${left}%` }}
+                style={positionStyle}
                 aria-hidden
               />
             );
@@ -194,32 +211,40 @@ export const PositionnementPolitique: React.FC<PositionnementPolitiqueProps> = (
       <div className="mt-2 px-1">
         <div
           className={twMerge(
-            "relative h-4 text-[10px] sm:text-[11px] font-medium tracking-wide",
+            "relative h-4 text-[8px] sm:text-[11px] font-medium tracking-wide",
             isDark ? "text-slate-400" : "text-slate-600"
           )}
           aria-label="Légende de la jauge politique"
         >
           {legendLabels.map((label, i) => {
             const majorTickIndex = majorTickIndices[i];
-            const majorTickLeft = ticks.find(t => t.index === majorTickIndex)?.left || 0;
             
             let positionClasses = "";
             let positionStyle = {};
             let visibilityClass = "";
+            
+            // Trouver la position calculée du tick (non corrigée à 50% ici)
+            const tickPosition = ticks.find(t => t.index === majorTickIndex)?.left || 0;
+            
+            // CORRECTION: Appliquer le positionnement à 50% et la classe de centrage du texte pour le label "Centre"
+            if (label === 'Centre') {
+                positionStyle = { left: `50%` };
+                positionClasses = "transform -translate-x-1/2 text-center"; // Centrer le texte
+            } else if (majorTickIndex === 0) {
+              positionClasses = "left-0"; 
+              positionStyle = { left: '0%' }; // Fixer à 0%
+            } else if (majorTickIndex === totalSegments) {
+              positionClasses = "right-0 text-right";
+              // Pas de style left/right si on utilise right-0
+            } else {
+              positionClasses = "transform -translate-x-1/2 text-center";
+              positionStyle = { left: `${tickPosition}%` };
+            }
 
             if (label === 'Gauche' || label === 'Droite') {
                 visibilityClass = "hidden sm:block"; 
             } else {
                 visibilityClass = "block";
-            }
-
-            if (majorTickIndex === 0) {
-              positionClasses = "left-0"; 
-            } else if (majorTickIndex === totalSegments) {
-              positionClasses = "right-0 text-right";
-            } else {
-              positionClasses = "transform -translate-x-1/2 text-center";
-              positionStyle = { left: `${majorTickLeft}%` };
             }
             
             return (

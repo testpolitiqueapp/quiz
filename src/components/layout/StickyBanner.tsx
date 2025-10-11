@@ -110,7 +110,7 @@ const StickyBanner: React.FC = () => {
                 "font-bold text-xl tracking-tight",
                 isDark ? 'text-slate-100' : 'text-slate-900'
               )}>
-                TestPolitique.app
+                TestPolitique
               </span>
               <span className={twMerge(
                 "text-xs hidden sm:block",

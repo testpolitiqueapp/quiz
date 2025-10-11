@@ -117,13 +117,13 @@ const ThemeItem = React.memo(({ theme, isDark, themeClasses, topPartyName }: {
     
     return (
       <div ref={itemRef} className={twMerge("group relative p-4 rounded-2xl border", "transition-all duration-300 ease-out", "hover:shadow-lg hover:shadow-black/5 hover:-translate-y-1", "hover:scale-[1.02] cursor-pointer", colorClasses.bg)}>
-        <div className="relative flex items-center gap-3">
+        <div className="relative flex items-center gap-2">
           <div className={twMerge("relative flex items-center justify-center w-10 h-10 rounded-2xl shadow-lg", colorClasses.iconContainer)}>
             <CategoryIcon iconName={THEME_ICONS_MAP[theme.name]} className="w-6 h-6 text-white drop-shadow-sm" />
           </div>
           <div className="flex-1 min-w-0">
-            <div className="flex items-center justify-between mb-1">
-              <h4 className={twMerge("font-semibold text-base leading-tight truncate", themeClasses.text.primary)}>{theme.name}</h4>
+            <div className="flex items-center justify-between mb-2">
+              <h4 className={twMerge("font-semibold text-base leading-snug tracking-tight truncate mr-1 ", themeClasses.text.primary)}>{theme.name}</h4>
               {theme.affinity > 0 && <AnimatedBadge percentage={affinityPercentage} colorClasses={colorClasses} />}
             </div>
             {theme.affinity > 0 ? (
@@ -134,7 +134,7 @@ const ThemeItem = React.memo(({ theme, isDark, themeClasses, topPartyName }: {
                 />
               </div>
             ) : (
-              <p className={twMerge("text-xs leading-tight", themeClasses.text.secondary, "opacity-75")}>Aucune position exprimée par {topPartyName} sur ce thème.</p>
+              <p className={twMerge("text-xs leading-snug", themeClasses.text.secondary, "opacity-75")}>Aucune position exprimée par {topPartyName} sur ce thème.</p>
             )}
           </div>
         </div>
@@ -162,30 +162,59 @@ const ThemesPrioritaires: React.FC<ThemesProps> = ({ prioritizedCategories, them
 
   return (
     <GlassTile className="overflow-hidden p-0">
-      <div className="relative p-6 pb-4">
-        <div className="flex items-start gap-4">
+      
+      {/* HEADER AMÉLIORÉ */}
+      <div className="p-4 pb-0 sm:p-6 sm:pb-0">
+        <div className="flex items-center gap-4 mb-3">
+          
+          {/* Bloc Icône (Amélioré) */}
           <div className={twMerge(
             "relative flex items-center justify-center w-10 h-10 rounded-2xl shadow-lg", 
             "bg-gradient-to-br from-blue-500 to-indigo-600", 
             "ring-1 ring-blue-500/20",
-            "transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-blue-500/30"
+            "flex-shrink-0",
+            // NOUVELLES CLASSES POUR L'ESTHÉTIQUE
+            "transform transition-all duration-300 ease-out", // Pour les animations futures ou hover
+            "before:absolute before:inset-0 before:rounded-2xl", // Pseudo-élément pour la brillance interne
+            "before:bg-gradient-to-br before:from-white/40 before:to-transparent", // Gradient de brillance
+            "before:opacity-0 hover:before:opacity-100 before:transition-opacity before:duration-300", // Animation de brillance au survol
+            "dark:before:from-white/10 dark:before:opacity-20 dark:hover:before:opacity-30", // Adapté au mode sombre
+            "shadow-blue-500/40 dark:shadow-indigo-700/40", // Ombre colorée
+            "hover:shadow-blue-600/60 dark:hover:shadow-indigo-600/60" // Ombre au survol
           )}>
             <BookmarkCheck className="w-6 h-6 text-white drop-shadow-sm" />
-            <div className="absolute inset-0 rounded-2xl bg-gradient-to-tr from-white/20 to-transparent opacity-60" />
+            {/* L'ancien div de brillance est fusionné avec le pseudo-élément 'before' pour plus de propreté */}
           </div>
+          {/* Fin Bloc Icône */}
 
-          <div>
-            <h3 className={twMerge("text-2xl font-bold mb-2 tracking-tight", themeClasses.text.primary)}>Vos priorités</h3>
-            <div className="space-y-2">
-              <p className={twMerge("text-sm leading-relaxed", themeClasses.text.secondary)}>Niveau d'accord avec</p>
-              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-gradient-to-r from-slate-100/80 to-slate-50/60 dark:from-slate-800/60 dark:to-slate-700/40 border border-slate-200/50 dark:border-slate-600/30">
-                <img src={topPartyLogoUrl} alt={`Logo de ${topPartyName}`} className="w-6 h-6 rounded-full object-cover shadow-sm ring-1 ring-white/20"/>
-                <span className={twMerge("font-semibold text-sm", themeClasses.text.primary)}>{topPartyName}</span>
-              </div>
-            </div>
+          <div className="flex-1 min-w-0">
+            {/* Titre Principal */}
+            <h3 className={twMerge("text-xl font-bold tracking-tight leading-snug", themeClasses.text.primary)}>
+              Thèmes prioritaires
+            </h3>
+            
+            {/* Sous-titre explicatif */}
+             <p className={twMerge("text-xs mt-0.5", themeClasses.text.secondary)}>
+                Niveau d'accord sur les thèmes que vous avez sélectionnés.
+            </p>
           </div>
         </div>
+        
+        {/* Ligne du parti mise en évidence */}
+        <div className={twMerge(
+            "flex items-center justify-between p-3 rounded-xl border",
+            "bg-gradient-to-r from-slate-100/80 to-slate-50/60 dark:from-slate-800/60 dark:to-slate-700/40", 
+            "border-slate-200/50 dark:border-slate-600/30",
+            "shadow-inner mb-4"
+        )}>
+            <p className={twMerge("text-sm font-medium", themeClasses.text.secondary)}>Accord avec :</p>
+            <div className="flex items-center gap-2">
+                <img src={topPartyLogoUrl} alt={`Logo de ${topPartyName}`} className="w-6 h-6 rounded-full object-cover shadow-sm ring-1 ring-white/20"/>
+                <span className={twMerge("font-bold text-sm", themeClasses.text.primary)}>{topPartyName}</span>
+            </div>
+        </div>
       </div>
+      {/* FIN HEADER AMÉLIORÉ */}
 
       <div className="px-4 pb-4">
         <div className="space-y-3">

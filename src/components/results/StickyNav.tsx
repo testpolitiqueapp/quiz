@@ -34,7 +34,7 @@ export const StickyNav: React.FC<StickyNavProps> = ({ activeSection }) => {
               key={id}
               href={`#${id}`}
               aria-label={label}
-              className="flex flex-col h-14 w-14 items-center justify-center gap-1 rounded-xl transition-colors duration-200"
+              className="flex flex-col h-12 w-12 items-center justify-center gap-1 rounded-xl transition-colors duration-200"
             >
               <div
                 className={twMerge(
@@ -49,7 +49,7 @@ export const StickyNav: React.FC<StickyNavProps> = ({ activeSection }) => {
               >
                 <Icon
                   className={twMerge(
-                    "h-5 w-5 transition-colors duration-300",
+                    "h-4 w-4 transition-colors duration-300",
                     !isActive && "text-slate-500 dark:text-slate-400",
                     isActive && "text-white drop-shadow-sm"
                   )}
