@@ -2,9 +2,9 @@
 
 // --- PRISMES THÉMATIQUES ---
 export const PRISMS_DATA: { [key: string]: { name: string; icon: string; description: string; } } = {
-  'ecologie': { name: 'Préservation de l’environnement', icon: 'Flower', description: "Les questions environnementales sont au cœur de vos préoccupations." },
+  'ecologie': { name: 'Préservation de l’environnement', icon: 'Flower', description: "Pour vous, l'écologie est un enjeu transversal qui touche à notre santé, notre économie et notre qualité de vie." },
   'condition-animale': { name: 'Protection animale', icon: 'PawPrint', description: "Vous montrez un intérêt marqué pour la cause et le bien-être des animaux." },
-  'souverainete': { name: 'Indépendance nationale', icon: 'FlagTriangleRight', description: "L'indépendance nationale est un sujet central pour vous." },
+  'souverainete': { name: 'Indépendance nationale', icon: 'FlagTriangleRight', description: "La souveraineté est pour vous la condition essentielle de la démocratie et de la liberté d'un peuple." },
   'securite-autorite': { name: 'Ordre et sécurité', icon: 'ShieldCheck', description: "Les thématiques liées à l'ordre, la sécurité et l'autorité de l'État retiennent particulièrement votre attention." },
   'justice-sociale': { name: 'Justice sociale', icon: 'HeartPulse', description: "La lutte contre les inégalités et la protection des plus faibles est un moteur important de vos opinions." },
   'progressisme-societal': { name: 'Progrès sociétal', icon: 'UserCheck', description: "Vous êtes particulièrement sensible à l'avancée des libertés individuelles et des droits sociétaux." },

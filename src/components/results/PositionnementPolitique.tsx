@@ -87,10 +87,10 @@ export const PositionnementPolitique: React.FC<PositionnementPolitiqueProps> = (
   const cursorInnerSizeClasses = "w-2 h-2";
   const waveSizeClasses = "w-5 h-5";
 
-  const badgeClasses = "px-2 py-0.5 rounded-full text-m font-bold ring-1";
+  const badgeClasses = "px-2 py-0.5 rounded-full text-m font-medium ring-1";
   const badgeColorClasses = isDark 
-    ? "bg-indigo-900/40 text-indigo-300 ring-indigo-900/40" 
-    : "bg-indigo-100 text-indigo-700 ring-indigo-100";
+    ? "bg-blue-900/40 text-blue-300 ring-blue-700/30" 
+    : "bg-blue-100 text-blue-700 ring-blue-200/50";
 
 
   return (

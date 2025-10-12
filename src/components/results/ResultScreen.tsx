@@ -10,10 +10,14 @@ import {
   PrismesPolitiques,
   PositionnementPolitique,
   AnalysisHeader,
+  // Importation de la nouvelle tuile
+  ConvergencesInattendues,
 } from './';
 import { StickyNav } from './StickyNav';
 import { PARTIES, type Party } from '../../parties';
 import type { QuizQuestion, TagScores, PrismsDataMap, ConvictionData, PositionEntry } from '../../types/quiz';
+
+// --- INTERFACES & TYPES ---
 
 interface PartyResult extends Party {
   percentage: number;
@@ -39,6 +43,8 @@ interface ResultScreenProps {
   isDark: boolean;
 }
 
+// --- COMPOSANT PRINCIPAL ---
+
 const ResultScreen: React.FC<ResultScreenProps> = ({
   finalResult,
   onRestart,
@@ -51,6 +57,8 @@ const ResultScreen: React.FC<ResultScreenProps> = ({
   PRISMS_DATA,
   isDark,
 }) => {
+  // --- ÉTATS & HOOKS ---
+
   const [isAnalysisComplete, setIsAnalysisComplete] = useState(false);
   const [animatedPercentages, setAnimatedPercentages] = useState<{ [key: string]: number }>({});
   const [activeSection, setActiveSection] = useState('positionnement-politique');
@@ -103,6 +111,8 @@ const ResultScreen: React.FC<ResultScreenProps> = ({
     return () => clearTimeout(percentageTimer);
   }, [finalResult]);
 
+  // --- CALCULS & DONNÉES MÉMORISÉES ---
+
   const { averageTime, strongestConviction, mostHesitantAnswer } = useMemo(() => {
     const validTimes = answerTimes.filter((t): t is number => typeof t === 'number');
     const sum = validTimes.reduce((a, b) => a + b, 0);
@@ -124,16 +134,15 @@ const ResultScreen: React.FC<ResultScreenProps> = ({
   const finalProfile = finalResult?.[0];
   const biggestDisagreementParty = finalResult?.[finalResult.length - 1];
 
-  const getPartyLogo = (partyId: string) => {
+  const topPartyLogoUrl = useMemo(() => {
+    if (!finalProfile) return '';
     const theme = isDark ? 'dark' : 'light';
-    const party = PARTIES.find(p => p.id === partyId);
+    const party = PARTIES.find(p => p.id === finalProfile.id);
     return party?.logo?.[theme] || `/images/logospartis/light/default.png`;
-  };
-
-  const topPartyLogoUrl = finalProfile ? getPartyLogo(finalProfile.id) : '';
+  }, [finalProfile, isDark]);
 
   const thematicBreakdown = useMemo(() => {
-    if (!quizQuestions || !answers || !finalResult || finalResult.length === 0 || !finalProfile) return [];
+    if (!quizQuestions || !answers || !finalProfile) return [];
     const topPartyId = finalProfile.id;
     const scores: { [category: string]: { totalWeightedAffinity: number; totalWeight: number; } } = {};
 
@@ -166,10 +175,9 @@ const ResultScreen: React.FC<ResultScreenProps> = ({
       name,
       percentage: totalWeight > 0 ? (totalWeightedAffinity / totalWeight) : 0
     }));
-  }, [quizQuestions, answers, finalResult, finalProfile]);
+  }, [quizQuestions, answers, finalProfile]);
 
   const themeAffinities = useMemo(() => {
-    if (!thematicBreakdown) return {};
     return thematicBreakdown.reduce((acc, theme) => {
       acc[theme.name] = theme.percentage;
       return acc;
@@ -182,9 +190,13 @@ const ResultScreen: React.FC<ResultScreenProps> = ({
     border: { main: 'border-gray-200 dark:border-slate-700' },
   };
 
+  // --- GESTION DU CHARGEMENT ---
+
   if (!finalProfile || !politicalCompassResult) {
     return <div>Chargement de votre analyse...</div>;
   }
+
+  // --- RENDU JSX ---
 
   return (
     <div className={themeClasses.background.main}>
@@ -198,8 +210,8 @@ const ResultScreen: React.FC<ResultScreenProps> = ({
       <StickyNav activeSection={activeSection} />
 
       <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-6">
+        {/* Colonne de gauche (principale) */}
         <div className="lg:col-span-2 space-y-6">
-
           <div id="positionnement-politique" className="scroll-mt-45 lg:scroll-mt-4">
             <PositionnementPolitique 
               orientation={finalProfile.orientation} 
@@ -207,13 +219,12 @@ const ResultScreen: React.FC<ResultScreenProps> = ({
               isDark={isDark}
             />
           </div>
-
           <div id="parti-vainqueur" className="scroll-mt-45 lg:scroll-mt-4">
              <ProfileHeader {...{finalProfile, animatedPercentage: animatedPercentages[finalProfile.id] || 0, isDark, themeClasses}} />
           </div>
-
-          <div id="parti-oppose" className="scroll-mt-40 lg:scroll-mt-4"><BiggestDisagreement {...{party: biggestDisagreementParty, isDark, themeClasses}} /></div>
-          
+          <div id="parti-oppose" className="scroll-mt-40 lg:scroll-mt-4">
+            <BiggestDisagreement {...{party: biggestDisagreementParty, isDark, themeClasses}} />
+          </div>
           <div id="prismes-politiques" className="scroll-mt-40 lg:scroll-mt-4">
             <PrismesPolitiques 
               tagScores={tagScores} 
@@ -224,17 +235,36 @@ const ResultScreen: React.FC<ResultScreenProps> = ({
           </div>
         </div>
 
+        {/* Colonne de droite (secondaire) */}
         <div className="lg:col-span-1 space-y-6">
-          <div id="themes-prioritaires" className="scroll-mt-40 lg:scroll-mt-4"><ThemesPrioritaires {...{prioritizedCategories, themeAffinities, isDark, themeClasses, topPartyLogoUrl, topPartyName: finalProfile.name}} /></div>
-          <div id="conviction-forte" className="scroll-mt-40 lg:scroll-mt-4"><AnalyseConviction {...{strongestConviction, mostHesitantAnswer, isDark, themeClasses}} /></div>
-          <div id="temps-reponse" className="scroll-mt-40 lg:scroll-mt-4"><TempsDeReponse {...{averageTime, isDark, themeClasses}} /></div>
+          <div id="themes-prioritaires" className="scroll-mt-40 lg:scroll-mt-4">
+            <ThemesPrioritaires {...{prioritizedCategories, themeAffinities, isDark, themeClasses, topPartyLogoUrl, topPartyName: finalProfile.name}} />
+          </div>
+          
+          {/* INTÉGRATION DE LA NOUVELLE TUILE */}
+          {biggestDisagreementParty && (
+            <ConvergencesInattendues 
+              lowRankedParty={biggestDisagreementParty}
+              quizQuestions={quizQuestions}
+              userAnswers={answers}
+              isDark={isDark}
+              themeClasses={themeClasses}
+            />
+          )}
+
+          <div id="conviction-forte" className="scroll-mt-40 lg:scroll-mt-4">
+            <AnalyseConviction {...{strongestConviction, mostHesitantAnswer, isDark, themeClasses}} />
+          </div>
+          <div id="temps-reponse" className="scroll-mt-40 lg:scroll-mt-4">
+            <TempsDeReponse {...{averageTime, isDark, themeClasses}} />
+          </div>
         </div>
       </div>
 
+      {/* Pied de page et actions */}
       <div className="px-4 lg:px-0">
         <ActionButtons {...{onRestart, finalResult, isDark}} />
       </div>
-
       <div className={`text-center mt-6 pt-6 pb-6 px-4 lg:px-0 ${themeClasses.text.muted}`}>
         <p className={`text-xs font-medium`}>
           Résultats basés sur vos réponses • Notre algorithme est conçu pour être le plus juste et performant possible, mais en tant que machine, il ne peut intégrer les nuances de vos valeurs personnelles ni vos traits de caractère.

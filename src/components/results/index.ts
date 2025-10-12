@@ -4,6 +4,7 @@ export * from './AnalysisHeader';
 export * from './BiggestDisagreement';
 export * from './ProfileHeader';
 export * from './PositionnementPolitique'; 
+export * from './ConvergencesInattendues';
 
 // --- Composants avec EXPORT PAR DÉFAUT  ---
 export { default as ResultScreen } from './ResultScreen';

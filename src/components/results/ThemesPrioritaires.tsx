@@ -207,10 +207,10 @@ const ThemesPrioritaires: React.FC<ThemesProps> = ({ prioritizedCategories, them
             "border-slate-200/50 dark:border-slate-600/30",
             "shadow-inner mb-4"
         )}>
-            <p className={twMerge("text-sm font-medium", themeClasses.text.secondary)}>Accord avec :</p>
+            <p className={twMerge("text-xs tracking-tighter font-medium", themeClasses.text.secondary)}>Accord avec :</p>
             <div className="flex items-center gap-2">
                 <img src={topPartyLogoUrl} alt={`Logo de ${topPartyName}`} className="w-6 h-6 rounded-full object-cover shadow-sm ring-1 ring-white/20"/>
-                <span className={twMerge("font-bold text-sm", themeClasses.text.primary)}>{topPartyName}</span>
+                <span className={twMerge("font-bold truncate text-xs", themeClasses.text.primary)}>{topPartyName}</span>
             </div>
         </div>
       </div>
