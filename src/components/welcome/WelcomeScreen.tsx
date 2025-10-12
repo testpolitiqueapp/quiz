@@ -20,7 +20,6 @@ const firebaseConfig = {
 };
 
 
-
 // On initialise Firebase une seule fois
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
@@ -101,8 +100,17 @@ const WelcomeScreen: React.FC<{ onStart: () => void }> = ({ onStart }) => {
     <div className="w-full font-sans">
       <div className="relative flex min-h-[600px] w-full flex-col items-center justify-center overflow-hidden text-center">
         <div className="welcome-background"></div> 
-        <div className="relative z-[2] flex max-w-4xl flex-col items-center px-1">
-          <h1 className={`text-6xl sm:text-8xl font-extrabold ${themeClasses.text.primary} tracking-tight mt-6 mb-6 leading-none drop-shadow-md animate-fade-in-up text-balance`}>
+        <div className="relative z-[2] flex max-w-4xl flex-col items-center px-1 pt-4 sm:pt-0">
+
+          {/* --- MODIFICATION : Badge statique, sans animation --- */}
+          <div className="mt-4 mb-5 animate-fade-in-up">
+            <span className="inline-block transform rounded-full bg-gradient-to-r from-yellow-400 via-orange-500 to-red-600 px-4 py-1.5 text-sm font-bold uppercase tracking-wider text-white shadow-lg">
+              Nouveau
+            </span>
+          </div>
+          {/* --- FIN DE LA MODIFICATION --- */}
+
+          <h1 className={`text-6xl sm:text-8xl font-extrabold ${themeClasses.text.primary} tracking-tight mb-6 leading-none drop-shadow-md animate-fade-in-up text-balance`}>
             Quel est votre profil politique ?
           </h1>
 
