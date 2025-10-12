@@ -83,7 +83,7 @@ const App: React.FC = () => {
                     setAnswers(savedProgress.answers || []);
                     setAnswerTimes(savedProgress.answerTimes || []);
                     setPrioritizedCategories(savedProgress.prioritizedCategories || []);
-                    setJokersRemaining(savedProgress.jokersRemaining ?? 2);
+                    setJokersRemaining(savedProgress.jokersRemaining ?? 3);
                 }
             }
         } catch (error) {
@@ -104,16 +104,20 @@ const App: React.FC = () => {
 
     useEffect(() => { window.scrollTo({ top: 0, behavior: 'auto' }); }, [quizState, questionIndex]);
 
-    const allCategories = useMemo(() => Object.entries(QUESTIONS_BY_CATEGORY).map(([name, { icon }]) => ({ name, icon })), []);
+    const allCategories = useMemo(() => Object.entries(QUESTIONS_BY_CATEGORY).filter(([name]) => name !== "Vision & Valeurs").map(([name, { icon }]) => ({ name, icon })), []);
 
     const startQuiz = useCallback((priorities: string[]) => {
         setPrioritizedCategories(priorities);
         const selectedQuestions: Question[] = [];
-        let questionsToSelectFrom: Question[] = [...QUESTIONS];
+        let questionsToSelectFrom: Question[] = QUESTIONS.filter(q => allCategoriesByName[q.id]?.categoryName !== "Vision & Valeurs");
+        const visionQuestions = QUESTIONS_BY_CATEGORY["Vision & Valeurs"]?.questions || [];
+        const finalPhilosophicalQuestion = visionQuestions.length > 0 ? shuffleArray(visionQuestions)[0] : null;
+        
         const tieBreakerQuestionIds = [201, 111, 208];
         const tieBreakerQuestions = questionsToSelectFrom.filter(q => tieBreakerQuestionIds.includes(q.id));
         selectedQuestions.push(...tieBreakerQuestions);
         questionsToSelectFrom = questionsToSelectFrom.filter(q => !tieBreakerQuestionIds.includes(q.id));
+        
         const priorityCounts = [3, 3, 3, 2, 2];
         priorities.forEach((priorityCategory, index) => {
             const numTieBreakersInCategory = tieBreakerQuestions.filter(q => allCategoriesByName[q.id]?.categoryName === priorityCategory).length;
@@ -128,7 +132,8 @@ const App: React.FC = () => {
                 });
             }
         });
-        const remainingQuestionsCount = 25 - selectedQuestions.length;
+        
+        const remainingQuestionsCount = 24 - selectedQuestions.length;
         if (remainingQuestionsCount > 0) {
             const remainingEconomicCount = Math.ceil(remainingQuestionsCount / 2);
             const remainingSocietalCount = Math.floor(remainingQuestionsCount / 2);
@@ -137,8 +142,15 @@ const App: React.FC = () => {
             selectedQuestions.push(...remainingEconomic.slice(0, remainingEconomicCount));
             selectedQuestions.push(...remainingSocietal.slice(0, remainingSocietalCount));
         }
-        const selectedQuestionsWithCategory: QuizQuestion[] = selectedQuestions.map(q => ({ ...q, ...allCategoriesByName[q.id] } as QuizQuestion));
-        const finalQuestionList = smartShuffleArray(selectedQuestionsWithCategory);
+        
+        const first24QuestionsWithCategory: QuizQuestion[] = selectedQuestions.map(q => ({ ...q, ...allCategoriesByName[q.id] } as QuizQuestion));
+        const shuffledFirst24 = smartShuffleArray(first24QuestionsWithCategory);
+        
+        const finalQuestionList = [...shuffledFirst24];
+        if (finalPhilosophicalQuestion) {
+            finalQuestionList.push({ ...finalPhilosophicalQuestion, ...allCategoriesByName[finalPhilosophicalQuestion.id] } as QuizQuestion);
+        }
+        
         setQuizQuestions(finalQuestionList);
         setQuestionIndex(0); setAnswers([]); setAnswerTimes([]); setFinalResult(null); setQuizState('quizzing'); setJokersRemaining(3);
     }, [allCategoriesByName]);
@@ -205,27 +217,22 @@ const App: React.FC = () => {
         const userCompassScores = { economic: { score: 0, max: 0 }, societal: { score: 0, max: 0 } };
         const userTagScores: { [key: string]: { score: number, max: number } } = Object.keys(PRISMS_DATA).reduce((acc, key) => ({ ...acc, [key]: { score: 0, max: 0 } }), {});
         const userTagConvictions: { [key: string]: boolean } = Object.keys(PRISMS_DATA).reduce((acc, key) => ({ ...acc, [key]: false }), {});
-        const progressiveTags = ['ecologie', 'condition-animale', 'justice-sociale', 'progressisme-societal', 'europe-integree', 'humanisme', 'culture-inclusive'];
+        const progressiveTags = ['ecologie', 'condition-animale', 'justice-sociale', 'progressisme-societal', 'europe-integree', 'humanisme', 'culture-inclusive', 'feminisme'];
 
         quizQuestions.forEach((question, index) => {
             const answerValue = answers[index];
             if (answerValue === undefined) return;
-
             const axis = question.axis as 'economic' | 'societal';
-
             if (!['economic', 'societal'].includes(axis)) {
                 return;
             }
-
             const isPriority = prioritizedCategories.includes(question.categoryName);
             const priorityWeight = isPriority ? PRIORITY_WEIGHT : 1;
             const questionImportance = question.importance || 1;
             const finalWeight = priorityWeight * questionImportance;
             const direction = question.direction ?? 1;
-
             userCompassScores[axis].score += answerValue * direction * finalWeight;
             userCompassScores[axis].max += 2 * finalWeight;
-
             const tags: string[] = (question.tags_primaires || []).concat(question.tags_secondaires || question.tags || []);
             if (tags) {
                 tags.forEach((tag: string) => {
@@ -239,7 +246,6 @@ const App: React.FC = () => {
                 });
             }
         });
-
         const economicAxis = userCompassScores.economic.max > 0 ? (userCompassScores.economic.score / userCompassScores.economic.max) * 100 : 0;
         const societalAxis = userCompassScores.societal.max > 0 ? (userCompassScores.societal.score / userCompassScores.societal.max) * 100 : 0;
         const userCompassPosition = { x: economicAxis, y: societalAxis };
@@ -349,7 +355,7 @@ const App: React.FC = () => {
 
     const restartQuiz = useCallback(() => {
         try { localStorage.removeItem('quizProgress'); } catch (error) { console.error("Erreur lors de la suppression :", error); }
-        setQuizState('welcome'); setQuestionIndex(0); setQuizQuestions([]); setFinalResult(null); setAnswers([]); setAnswerTimes([]); setPrioritizedCategories([]); setPoliticalCompassResult(null); setTagScores(null); setJokersRemaining(2);
+        setQuizState('welcome'); setQuestionIndex(0); setQuizQuestions([]); setFinalResult(null); setAnswers([]); setAnswerTimes([]); setPrioritizedCategories([]); setPoliticalCompassResult(null); setTagScores(null); setJokersRemaining(3);
     }, []);
 
     useEffect(() => {

@@ -1,6 +1,6 @@
 import type { Question } from './types';
 
-// Import all 20 category files
+// Import all 21 category files
 import { economieQuestions } from './categories/01-economie';
 import { travailQuestions } from './categories/02-travail';
 import { santeQuestions } from './categories/03-sante';
@@ -21,6 +21,7 @@ import { familleJeunesseQuestions } from './categories/17-famille-jeunesse';
 import { europeQuestions } from './categories/18-europe';
 import { servicesPublicsQuestions } from './categories/19-services-publics';
 import { transportsAmenagementQuestions } from './categories/20-transports-amenagement';
+import { visionValeursQuestions } from './categories/21-vision-valeurs'; 
 
 export const QUESTIONS_BY_CATEGORY = {
   "Économie & Fiscalité": { icon: "BadgeEuro", questions: economieQuestions, color: "#0d9488" }, 
@@ -43,6 +44,7 @@ export const QUESTIONS_BY_CATEGORY = {
   "Europe": { icon: "Star", questions: europeQuestions, color: "#1f3bc0" }, 
   "Services Publics": { icon: "Building", questions: servicesPublicsQuestions, color: "#71717a" }, 
   "Transports & Aménagement": { icon: "Network", questions: transportsAmenagementQuestions, color: "#f97316" }, 
+  "Vision & Valeurs": { icon: "Focus", questions: visionValeursQuestions, color: "#f56120" }, 
 };
 
 // EXPORT

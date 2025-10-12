@@ -1,7 +1,7 @@
 import {
   Info, ArrowLeft, BadgeEuro, Briefcase, Scale, Globe, Leaf, Landmark, Star,
   GraduationCap, Heart, Building, Home, Tractor, ShieldCheck, Clapperboard,
-  Users, Cpu, PawPrint, FlaskConical, Baby, Network, Shuffle
+  Users, Cpu, PawPrint, FlaskConical, Baby, Network, Shuffle, Focus
 } from 'lucide-react';
 import { twMerge } from 'tailwind-merge';
 import { useState, useEffect, useRef } from 'react';
@@ -38,12 +38,13 @@ const categoryColors: { [key: string]: string } = {
   "Europe": "#1f3bc0", 
   "Services Publics": "#71717a", 
   "Transports & Aménagement": "#f97316", 
+  "Vision & Valeurs": "#f56120", 
 };
 
 const icons = {
   BadgeEuro, Briefcase, Scale, Globe, Leaf, Landmark, Star, GraduationCap,
   Heart, Building, Home, Tractor, ShieldCheck, Clapperboard, Users, Cpu,
-  PawPrint, FlaskConical, Baby, Network
+  PawPrint, FlaskConical, Baby, Network, Focus
 };
 
 type IconName = keyof typeof icons;
