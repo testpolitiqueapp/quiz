@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useMemo, useCallback, useRef } from 'react';
+import { Analytics } from '@vercel/analytics/react';
 import { QUESTIONS_BY_CATEGORY, QUESTIONS } from './questions/index';
 import { PARTIES } from './parties';
 import { ANSWER_VALUES, PRISMS_DATA } from './constants';
@@ -210,10 +211,8 @@ const App: React.FC = () => {
             const answerValue = answers[index];
             if (answerValue === undefined) return;
 
-            // SOLUTION DÉFINITIVE : On force le type de 'axis'
             const axis = question.axis as 'economic' | 'societal';
 
-            // Sécurité supplémentaire pour éviter les crashs si les données sont incorrectes
             if (!['economic', 'societal'].includes(axis)) {
                 return;
             }
@@ -224,7 +223,6 @@ const App: React.FC = () => {
             const finalWeight = priorityWeight * questionImportance;
             const direction = question.direction ?? 1;
 
-            // Les erreurs sont maintenant résolues
             userCompassScores[axis].score += answerValue * direction * finalWeight;
             userCompassScores[axis].max += 2 * finalWeight;
 
@@ -386,6 +384,7 @@ const App: React.FC = () => {
                 </div>
             </main>
             <Footer onLegalClick={goToLegal} />
+            <Analytics />
         </div>
     );
 };
