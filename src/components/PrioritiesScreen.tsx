@@ -11,9 +11,6 @@ const style = `
   50% { transform: scale(1.05); box-shadow: 0 8px 20px rgba(79, 70, 229, 0.7); }
   100% { transform: scale(1); box-shadow: 0 4px 12px rgba(59, 130, 246, 0.5); }
 }
-.animate-pulse-once {
-  animation: pulse-once 0.6s ease-out 1;
-}
 `;
 
 const useIsMobile = (breakpoint = 768) => { 
@@ -114,7 +111,7 @@ const PrioritiesScreen: React.FC<PrioritiesScreenProps> = ({ allCategories, onCo
       if (isSelected) { return prev.filter(name => name !== categoryName); }
       else { return prev.length < 5 ? [...prev, categoryName] : prev; }
     });
-  }, [setSelectedCategories]); 
+  }, []); 
   
   const handleRandomSelect = useCallback(() => {
     const shuffled = [...allCategories].sort(() => 0.5 - Math.random());
@@ -124,7 +121,7 @@ const PrioritiesScreen: React.FC<PrioritiesScreenProps> = ({ allCategories, onCo
 
 
   const getIconComponent = useCallback((iconName: string): LucideIcon | null => {
-    const IconComponent = (Icons as unknown as { [key: string]: LucideIcon })[iconName];
+    const IconComponent = (Icons as unknown as { [key:string]: LucideIcon })[iconName];
     return IconComponent || null;
   }, []);
 
@@ -195,7 +192,8 @@ const PrioritiesScreen: React.FC<PrioritiesScreenProps> = ({ allCategories, onCo
           className={twMerge(
             "relative cursor-pointer flex flex-col items-center justify-center text-center p-4 h-full rounded-2xl",
             "overflow-hidden active:scale-[0.98] transition-transform duration-200",
-            "bg-gradient-to-br from-slate-600 via-gray-700 to-slate-800", 
+            // NOUVEAU STYLE POUR LA TUILE ALÉATOIRE
+            "bg-gradient-to-br from-slate-700 via-slate-800 to-gray-900", // Dégradé de gris/bleu-gris plus cohérent
             "bg-[length:200%_200%] animate-gradient-pan", 
             "shadow-lg shadow-slate-500/20 dark:shadow-slate-900/40"
           )}
@@ -308,48 +306,41 @@ const PrioritiesScreen: React.FC<PrioritiesScreenProps> = ({ allCategories, onCo
     <div className="w-full max-w-6xl mx-auto pb-[calc(env(safe-area-inset-bottom)]">
       <style>{style}</style>
       <GlassTile className="p-4 sm:p-6 lg:p-8">
-        <div className="text-center mt-3 mb-6 sm:mb-8" style={{ marginTop: `env(safe-area-inset-top)`}}>
-          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-3 mt-2 sm:mb-4 text-slate-800 dark:text-slate-100">Quels thèmes comptent le plus pour vous ?</h1>
-          <p className="text-sm sm:text-base text-slate-600 dark:text-slate-300 mb-4 sm:mb-6">
+        <div className="text-center mt-3" style={{ marginTop: `env(safe-area-inset-top)`}}>
+          <h1 className="text-2xl sm:text-3xl lg:text-4xl tracking-tight leading-tight font-bold mb-3 mt-2 sm:mb-4 text-slate-800 dark:text-slate-100">Quels thèmes comptent le plus pour vous ?</h1>
+          <p className="text-sm sm:text-base tracking-tight text-slate-600 dark:text-slate-300 mb-6 sm:mb-8">
             Sélectionnez <strong className="text-blue-600 dark:text-blue-400">5 thèmes</strong> par ordre de priorité
           </p>
-        </div>
 
-        <div className="flex justify-center mb-8">
-          <div className="w-full max-w-2xl">
-            <div className="flex gap-1 p-1 rounded-xl bg-slate-200/70 dark:bg-slate-900/50">
-              {filterOptions.map(option => {
-                const count = getFilterCount(option.id);
-                return (
-                  <button
-                    key={option.id}
-                    onClick={() => handleFilterChange(option.id)}
-                    className={twMerge(
-                      "flex-1 flex items-center justify-center gap-2 px-3 py-2.5 rounded-lg text-xs font-semibold transition-all duration-300 relative",
-                      activeFilter === option.id
-                        ? "bg-gradient-to-br from-blue-500/90 to-indigo-600/90 text-white shadow-md"
-                        : "text-slate-600 dark:text-slate-400 hover:bg-slate-300/50 dark:hover:bg-slate-800/50"
-                    )}
-                  >
-                    <option.icon className="w-4 h-4" />
-                    <span className="hidden sm:inline">{option.label}</span>
-                    <span className="sm:hidden">
-                      {option.id === 'alphabetical' ? 'Tous' : 
-                       option.id === 'regalian' ? 'Régaliens' : 'Sociétaux'}
-                    </span>
-                    
-                    {(option.id === 'regalian' || option.id === 'societal') && count > 0 && (
-                      <div className={twMerge(
-                        "absolute -top-1 -right-1 w-4 h-4 rounded-full flex items-center justify-center text-xs font-bold shadow-lg ring-2 ring-white dark:ring-slate-800 animate-in zoom-in-50 duration-200",
-                        "bg-gradient-to-br from-blue-500 to-indigo-600 text-white"
-                      )}>
-                        {count}
-                      </div>
-                    )}
-                  </button>
-                );
-              })}
-            </div>
+          <div className="flex flex-col sm:flex-row justify-center items-center gap-2 sm:gap-3 mb-8">
+            {filterOptions.map(option => {
+              const count = getFilterCount(option.id);
+              const isActive = activeFilter === option.id;
+              return (
+                <button
+                  key={option.id}
+                  onClick={() => handleFilterChange(option.id)}
+                  className={twMerge(
+                    "relative w-full sm:w-auto flex items-center justify-center gap-2 px-4 py-2.5 rounded-full text-sm font-semibold transition-all duration-300 ease-in-out transform active:scale-95 outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500 dark:focus-visible:ring-offset-slate-900",
+                    isActive
+                      ? "bg-gradient-to-br from-blue-500 to-indigo-600 text-white shadow-md shadow-blue-500/20" 
+                      : "text-slate-500 dark:text-slate-400 bg-slate-200/60 dark:bg-slate-800/60 hover:bg-slate-300/70 dark:hover:bg-slate-700/70 hover:text-slate-700 dark:hover:text-slate-200"
+                  )}
+                >
+                  <option.icon className="w-4 h-4" />
+                  <span>{option.label}</span>
+                  
+                  {count > 0 && (
+                    <div className={twMerge(
+                      "absolute -top-1 -right-1 w-5 h-5 rounded-full flex items-center justify-center text-xs font-bold text-white shadow-md border-2 border-white dark:border-slate-800",
+                      isActive ? "bg-indigo-400" : "bg-slate-400 dark:bg-slate-500"
+                    )}>
+                      {count}
+                    </div>
+                  )}
+                </button>
+              );
+            })}
           </div>
         </div>
 
