@@ -3,9 +3,11 @@ import { Facebook, Twitter, Heart, Compass } from 'lucide-react';
 
 interface FooterProps {
   onLegalClick: () => void;
+  onAlgorithmClick: () => void; 
+  onPartiesDataClick: () => void; // NOUVELLE PROP AJOUTÉE
 }
 
-const Footer: React.FC<FooterProps> = ({ onLegalClick }) => {
+const Footer: React.FC<FooterProps> = ({ onLegalClick, onAlgorithmClick, onPartiesDataClick }) => { // Utilisation de la nouvelle prop
   const [isDark, setIsDark] = useState(() => {
     if (typeof window !== 'undefined') {
       return window.matchMedia('(prefers-color-scheme: dark)').matches;
@@ -80,6 +82,25 @@ const Footer: React.FC<FooterProps> = ({ onLegalClick }) => {
             <div className="flex flex-wrap items-center justify-center gap-x-3 gap-y-1">
               <span>© {new Date().getFullYear()}</span>
               <span>•</span>
+              {/* LIEN "L'ALGORITHME" */}
+              <button 
+                type="button"
+                onClick={onAlgorithmClick}
+                className={`transition ${themeClasses.linkHover} cursor-pointer hover:underline`}
+              >
+                L'algorithme
+              </button>
+              <span>•</span>
+              {/* NOUVEAU LIEN "TRANSPARENCE DES DONNÉES" */}
+              <button 
+                type="button"
+                onClick={onPartiesDataClick}
+                className={`transition ${themeClasses.linkHover} cursor-pointer hover:underline`}
+              >
+                Transparence des données
+              </button>
+              <span>•</span>
+              {/* LIEN "MENTIONS LÉGALES" */}
               <button 
                 type="button"
                 onClick={onLegalClick}

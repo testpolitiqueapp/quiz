@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { Compass, Info, HelpCircle, Twitter, Facebook, X, Home } from 'lucide-react';
+import { Compass, Info, HelpCircle, Twitter, Facebook, X, Home, ArrowRight } from 'lucide-react';
 import { twMerge } from 'tailwind-merge';
 import { MonochromeTile } from '../ui/MonochromeTile';
 import { OpaqueGlassTile } from '../ui/OpaqueGlassTile';
@@ -22,7 +22,14 @@ const useTheme = () => {
 
 type TooltipType = 'about' | 'info' | null;
 
-const StickyBanner: React.FC = () => {
+// Mise à jour de l'interface pour inclure la navigation vers les données des partis
+interface StickyBannerProps {
+  onNavigateToAlgorithm: () => void;
+  onNavigateToLegal: () => void;
+  onNavigateToPartiesData: () => void; // NOUVELLE PROPS
+}
+
+const StickyBanner: React.FC<StickyBannerProps> = ({ onNavigateToAlgorithm, onNavigateToLegal, onNavigateToPartiesData }) => { // Ajout de la props
 
   const { isDark } = useTheme();
   const [openTooltip, setOpenTooltip] = useState<TooltipType>(null);
@@ -230,6 +237,44 @@ const StickyBanner: React.FC = () => {
                       </a>
                     </div>
                   </div>
+                  
+                  <div className="mt-5 pt-4 border-t border-dashed border-slate-200 dark:border-slate-700 space-y-3">
+                    <button 
+                      onClick={() => {
+                        setOpenTooltip(null);
+                        onNavigateToAlgorithm();
+                      }}
+                      className="group inline-flex items-center text-sm text-blue-600 dark:text-blue-400 hover:text-blue-500 dark:hover:text-blue-300 font-medium transition-colors w-full text-left"
+                    >
+                      <span>En savoir plus sur l'algorithme</span>
+                      <ArrowRight className="w-4 h-4 ml-1 transition-transform group-hover:translate-x-1" />
+                    </button>
+                    
+                    {/* LIEN VERS LES DONNÉES DES PARTIS */}
+                    <button 
+                      onClick={() => {
+                        setOpenTooltip(null);
+                        onNavigateToPartiesData();
+                      }}
+                      className="group inline-flex items-center text-sm text-blue-600 dark:text-blue-400 hover:text-blue-500 dark:hover:text-blue-300 font-medium transition-colors w-full text-left"
+                    >
+                      <span>Transparence des données</span>
+                      <ArrowRight className="w-4 h-4 ml-1 transition-transform group-hover:translate-x-1" />
+                    </button>
+                    
+                    {/* LIEN VERS MENTIONS LÉGALES */}
+                    <button 
+                      onClick={() => {
+                        setOpenTooltip(null);
+                        onNavigateToLegal();
+                      }}
+                      className="group inline-flex items-center text-sm text-blue-600 dark:text-blue-400 hover:text-blue-500 dark:hover:text-blue-300 font-medium transition-colors w-full text-left"
+                    >
+                      <span>Lire les mentions légales</span>
+                      <ArrowRight className="w-4 h-4 ml-1 transition-transform group-hover:translate-x-1" />
+                    </button>
+                  </div>
+
                 </OpaqueGlassTile>
               </div>
             </div>
@@ -317,23 +362,37 @@ const StickyBanner: React.FC = () => {
                         )}>
                           Comment est calculé votre résultat ?
                         </h4>
-                        <p className="leading-relaxed mb-2">
-                          Les <strong>positions des partis</strong> sur les questions sont basées sur une analyse de leurs programmes officiels, de leurs votes récents et de leurs prises de position publiques.
-                        </p>
+                        
                         <p className="leading-relaxed mb-4">
-                          Nous utilisons un <strong>algorithme d'affinité pondéré</strong> qui compare chaque réponse à la position des partis. La <strong>pondération</strong> augmente l'impact des questions :
+                            Votre questionnaire de 25 questions est unique. Il est construit pour refléter vos priorités tout en garantissant une couverture politique pertinente. Chaque interaction nous fournit des indices sur la force de vos convictions, au-delà d'un simple clic. Les partis sont classés selon un mécanisme de départage précis pour garantir que le classement est juste, même en cas de scores très proches.
                         </p>
-                        <ul className={twMerge(
-                            "list-disc ml-5 space-y-2 mb-4 text-sm",
-                            isDark ? 'text-slate-300' : 'text-slate-600'
-                        )}>
-                            <li>Les thèmes que vous avez définis comme <strong>prioritaires</strong> comptent <strong>3 fois plus</strong> dans le score final.</li>
-                            <li>Les questions considérées comme <strong>très importantes</strong> (importance &gt; 1) ont également un poids accru.</li>
-                            <li>Un désaccord total sur une question cruciale (dite "Deal-Breaker") entraîne une <strong>pénalité significative</strong> sur le pourcentage d'affinité du parti concerné.</li>
-                        </ul>
-                        <p className="leading-relaxed mb-4">
-                          L'analyse vous situe sur une <strong>boussole politique</strong> (axes économique et sociétal) et identifie vos <strong>Prismes Politiques</strong> (vos grandes tendances thématiques). Un prisme est jugé dominant s'il atteint un score d'affinité élevé et si vous avez exprimé une <strong>conviction forte</strong> (réponse "Tout à fait d'accord" ou "Pas du tout d'accord") sur au moins un enjeu clé de ce prisme.
-                        </p>
+                        
+                        <div className="mb-4 space-y-3">
+                            {/* LIEN VERS L'EXPLICATION COMPLÈTE */}
+                            <button
+                                onClick={() => {
+                                    setOpenTooltip(null);
+                                    onNavigateToAlgorithm();
+                                }}
+                                className="group inline-flex items-center text-sm text-blue-600 dark:text-blue-400 hover:text-blue-500 dark:hover:text-blue-300 font-medium transition-colors w-full text-left"
+                            >
+                                <span>Lire l'explication complète de l'algorithme</span>
+                                <ArrowRight className="w-4 h-4 ml-1 transition-transform group-hover:translate-x-1" />
+                            </button>
+                            
+                            {/* LIEN VERS LES DONNÉES DES PARTIS */}
+                            <button
+                                onClick={() => {
+                                    setOpenTooltip(null);
+                                    onNavigateToPartiesData();
+                                }}
+                                className="group inline-flex items-center text-sm text-blue-600 dark:text-blue-400 hover:text-blue-500 dark:hover:text-blue-300 font-medium transition-colors w-full text-left"
+                            >
+                                <span>Voir la modélisation des partis (Boussole, Prismes)</span>
+                                <ArrowRight className="w-4 h-4 ml-1 transition-transform group-hover:translate-x-1" />
+                            </button>
+                        </div>
+                        
                         <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-700/50">
                           <p className={twMerge(
                             "text-xs leading-normal",
@@ -359,8 +418,12 @@ const StickyBanner: React.FC = () => {
                   </div>
 
                   <div className="mt-4 pt-4 border-t border-dashed border-slate-300 dark:border-slate-600 text-center">
-                    <a 
-                      href="#" 
+                    {/* LIEN VERS MENTIONS LÉGALES (CONSERVÉ) */}
+                    <button 
+                      onClick={() => {
+                        setOpenTooltip(null);
+                        onNavigateToLegal();
+                      }}
                       className={twMerge(
                         "text-xs hover:underline transition-colors",
                         isDark 
@@ -369,7 +432,7 @@ const StickyBanner: React.FC = () => {
                       )}
                     >
                       Mentions légales
-                    </a>
+                    </button>
                   </div>
                 </OpaqueGlassTile>
               </div>

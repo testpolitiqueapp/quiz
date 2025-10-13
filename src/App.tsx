@@ -12,6 +12,8 @@ import CalculatingScreen from './components/CalculatingScreen';
 import { ResultScreen } from './components/results';
 import type { Question } from './questions/types';
 import MentionsLegales from './MentionsLegales';
+import AlgorithmExplained from './AlgorithmExplained'; // Ajout de l'import
+import PartiesDataExplained from './PartiesDataExplained'; // Ajout de l'import
 import type { TagScores, QuizQuestion, FinalResultItem, PrismsDataMap, CategoriesByName } from './types/quiz';
 
 // --- FONCTIONS UTILITAIRES ---
@@ -43,7 +45,8 @@ const smartShuffleArray = (array: QuizQuestion[]): QuizQuestion[] => {
 
 // --- COMPOSANT PRINCIPAL ---
 const App: React.FC = () => {
-    const [quizState, setQuizState] = useState<'welcome' | 'priorities' | 'quizzing' | 'calculating' | 'result' | 'legal'>('welcome');
+    // MODIFICATION 1: Ajout de 'algorithm' et 'partiesData' aux états possibles
+    const [quizState, setQuizState] = useState<'welcome' | 'priorities' | 'quizzing' | 'calculating' | 'result' | 'legal' | 'algorithm' | 'partiesData'>('welcome');
     const [questionIndex, setQuestionIndex] = useState(0);
     const [quizQuestions, setQuizQuestions] = useState<QuizQuestion[]>([]);
     const [finalResult, setFinalResult] = useState<FinalResultItem[] | null>(null);
@@ -93,7 +96,8 @@ const App: React.FC = () => {
     }, [allCategoriesByName]);
 
     useEffect(() => {
-        if (quizState === 'welcome' || quizState === 'legal' || quizState === 'calculating') return;
+        // MODIFICATION 2: Ajout de 'partiesData' pour ne pas sauvegarder la progression sur cette page
+        if (quizState === 'welcome' || quizState === 'legal' || quizState === 'algorithm' || quizState === 'partiesData' || quizState === 'calculating') return;
         if (saveTimeoutRef.current) clearTimeout(saveTimeoutRef.current);
         const progressToSave = { quizState, questionIndex, quizQuestions, answers, answerTimes, prioritizedCategories, jokersRemaining };
         saveTimeoutRef.current = setTimeout(() => {
@@ -365,7 +369,10 @@ const App: React.FC = () => {
         }
     }, [quizState, calculateResult]);
 
+    // Ajout des fonctions de navigation
     const goToLegal = useCallback(() => { setQuizState('legal'); }, []);
+    const goToAlgorithm = useCallback(() => { setQuizState('algorithm'); }, []);
+    const goToPartiesData = useCallback(() => { setQuizState('partiesData'); }, []); // MODIFICATION 3: Création de la fonction de navigation
     const goToHome = useCallback(() => { setQuizState('welcome'); }, []);
 
     const renderContent = () => {
@@ -376,20 +383,34 @@ const App: React.FC = () => {
             case 'calculating': return <CalculatingScreen isDark={isDark} />;
             case 'result': return !finalResult ? <CalculatingScreen isDark={isDark} /> : <ResultScreen finalResult={finalResult} onRestart={restartQuiz} quizQuestions={quizQuestions} answers={answers} answerTimes={answerTimes} prioritizedCategories={prioritizedCategories} politicalCompassResult={politicalCompassResult} tagScores={tagScores} ANSWER_VALUES={ANSWER_VALUES} PRISMS_DATA={PRISMS_DATA as PrismsDataMap} isDark={isDark} />;
             case 'legal': return <MentionsLegales onBack={goToHome} isDark={isDark} />;
+            // Ajout du cas pour afficher la page de l'algorithme
+            case 'algorithm': return <AlgorithmExplained onBack={goToHome} isDark={isDark} />;
+            // MODIFICATION 4: Ajout du cas pour afficher la nouvelle page
+            case 'partiesData': return <PartiesDataExplained onBack={goToHome} isDark={isDark} />;
             default: return null;
         }
     };
 
     return (
         <div className={`min-h-[100dvh] w-full ${isDark ? 'dark' : ''} bg-[#f1f5f9] dark:bg-[#242d40] text-gray-900 dark:text-gray-100 flex flex-col font-sans transition-colors duration-300`}>
-            <StickyBanner />
+            {/* MODIFICATION 5: Passage de la nouvelle fonction au StickyBanner */}
+            <StickyBanner 
+                onNavigateToLegal={goToLegal} 
+                onNavigateToAlgorithm={goToAlgorithm}
+                onNavigateToPartiesData={goToPartiesData} // Nouvelle prop
+            />
             <main className="flex-1 w-full z-30 flex flex-col items-center p-4 sm:p-6">
                 <div className="h-5 w-full flex-shrink-0" />
                 <div className="w-full h-full flex items-center justify-center">
                     {renderContent()}
                 </div>
             </main>
-            <Footer onLegalClick={goToLegal} />
+            {/* MODIFICATION 6: Passage de la nouvelle fonction au Footer */}
+            <Footer 
+                onLegalClick={goToLegal} 
+                onAlgorithmClick={goToAlgorithm}
+                onPartiesDataClick={goToPartiesData} // Nouvelle prop
+            />
             <Analytics />
         </div>
     );
