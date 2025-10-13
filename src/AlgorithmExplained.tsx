@@ -22,7 +22,7 @@ const DetailedAlgorithmExplained: React.FC<DetailedAlgorithmExplainedProps> = ({
 
   return (
     <div className={twMerge("w-full font-sans", isDark ? "dark" : "")}>
-      <div className="w-full max-w-4xl mx-auto px-4 py-8 sm:py-12">
+      <div className="w-full max-w-4xl mx-auto py-8 sm:py-12">
 
         {/* --- EN-TÊTE --- */}
         <header className="text-center mb-12 sm:mb-16">
@@ -63,7 +63,7 @@ const DetailedAlgorithmExplained: React.FC<DetailedAlgorithmExplainedProps> = ({
               <ul className="space-y-3 text-slate-700 dark:text-slate-200">
                 <li className="flex items-start gap-3">
                   <Check className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" />
-                  <span><span className={boldTextClasses}>Questions clés ("Tie-Breakers") :</span> 3 questions fondamentales sont <span className="text-blue-600 dark:text-blue-400 font-semibold">systématiquement incluses</span> pour une différenciation maximale entre les partis.</span>
+                  <span><span className={boldTextClasses}>Questions clés ("Tie-Breakers") :</span> 3 questions fondamentales sont <span className="text-blue-600 dark:text-blue-400 font-semibold">systématiquement incluses</span> pour une différenciation plus optimale entre les partis.</span>
                 </li>
                 <li className="flex items-start gap-3">
                   <Check className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" />
@@ -71,11 +71,11 @@ const DetailedAlgorithmExplained: React.FC<DetailedAlgorithmExplainedProps> = ({
                 </li>
                 <li className="flex items-start gap-3">
                   <Check className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" />
-                  <span><span className={boldTextClasses}>Équilibrage des axes :</span> Les places restantes sont comblées pour assurer un équilibre entre les questions à caractère <span className={boldTextClasses}>économique</span> et <span className={boldTextClasses}>sociétal</span>.</span>
+                  <span><span className={boldTextClasses}>Équilibrage des axes :</span> Les places restantes sont attribuées pour assurer un équilibre entre les questions à caractère <span className={boldTextClasses}>économique</span> et <span className={boldTextClasses}>sociétal</span>.</span>
                 </li>
                 <li className="flex items-start gap-3">
                   <Check className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" />
-                  <span><span className={boldTextClasses}>Mélange intelligent</span> (<span className={techTermStyles}>smartShuffleArray</span>) : L'ordre est optimisé pour éviter que des questions similaires ne se suivent.</span>
+                  <span><span className={boldTextClasses}>Mélange intelligent</span> (<span className={techTermStyles}>smartShuffleArray</span>) : L'ordre est optimisé pour éviter que des questions ou catégories similaires ne se suivent.</span>
                 </li>
               </ul>
             </GlassTile>
@@ -115,7 +115,7 @@ const DetailedAlgorithmExplained: React.FC<DetailedAlgorithmExplainedProps> = ({
                   ⚠️ Importance de la cohérence des réponses
                 </p>
                 <p>
-                  L'algorithme est conçu pour analyser des schémas de pensée cohérents. Des réponses aléatoires produiront inévitablement un positionnement central et non pertinent.
+                  L'algorithme est conçu pour analyser des schémas de pensée cohérents. Des réponses très aléatoires et incohérentes produiront inévitablement un positionnement non pertinent.
                 </p>
               </div>
             </GlassTile>
@@ -159,7 +159,7 @@ const DetailedAlgorithmExplained: React.FC<DetailedAlgorithmExplainedProps> = ({
                 </li>
                 <li className="flex items-start gap-3">
                   <X className="w-5 h-5 text-red-500 flex-shrink-0 mt-0.5" />
-                  <span><strong className="font-semibold text-red-600 dark:text-red-500">Pénalité "Deal-Breaker" :</strong> Un désaccord total sur une question "Tie-Breaker" <strong className="text-red-600 dark:text-red-500">divise le score final du parti par 4</strong>.</span>
+                  <span><strong className="font-semibold text-red-600 dark:text-red-500">Pénalité "Deal-Breaker" :</strong> Un désaccord total sur une question "Tie-Breaker", soit une question majeure dans le débat public, <strong className="text-red-600 dark:text-red-500">divise le score final du parti par 4</strong>.</span>
                 </li>
               </ul>
             </GlassTile>

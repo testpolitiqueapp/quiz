@@ -10,14 +10,11 @@ import {
   PrismesPolitiques,
   PositionnementPolitique,
   AnalysisHeader,
-  // Importation de la nouvelle tuile
   ConvergencesInattendues,
 } from './';
 import { StickyNav } from './StickyNav';
 import { PARTIES, type Party } from '../../parties';
 import type { QuizQuestion, TagScores, PrismsDataMap, ConvictionData, PositionEntry } from '../../types/quiz';
-
-// --- INTERFACES & TYPES ---
 
 interface PartyResult extends Party {
   percentage: number;
@@ -43,8 +40,6 @@ interface ResultScreenProps {
   isDark: boolean;
 }
 
-// --- COMPOSANT PRINCIPAL ---
-
 const ResultScreen: React.FC<ResultScreenProps> = ({
   finalResult,
   onRestart,
@@ -57,8 +52,6 @@ const ResultScreen: React.FC<ResultScreenProps> = ({
   PRISMS_DATA,
   isDark,
 }) => {
-  // --- ÉTATS & HOOKS ---
-
   const [isAnalysisComplete, setIsAnalysisComplete] = useState(false);
   const [animatedPercentages, setAnimatedPercentages] = useState<{ [key: string]: number }>({});
   const [activeSection, setActiveSection] = useState('positionnement-politique');
@@ -110,8 +103,6 @@ const ResultScreen: React.FC<ResultScreenProps> = ({
     const percentageTimer = setTimeout(animatePercentages, 600);
     return () => clearTimeout(percentageTimer);
   }, [finalResult]);
-
-  // --- CALCULS & DONNÉES MÉMORISÉES ---
 
   const { averageTime, strongestConviction, mostHesitantAnswer } = useMemo(() => {
     const validTimes = answerTimes.filter((t): t is number => typeof t === 'number');
@@ -190,13 +181,9 @@ const ResultScreen: React.FC<ResultScreenProps> = ({
     border: { main: 'border-gray-200 dark:border-slate-700' },
   };
 
-  // --- GESTION DU CHARGEMENT ---
-
   if (!finalProfile || !politicalCompassResult) {
     return <div>Chargement de votre analyse...</div>;
   }
-
-  // --- RENDU JSX ---
 
   return (
     <div className={themeClasses.background.main}>
@@ -210,13 +197,12 @@ const ResultScreen: React.FC<ResultScreenProps> = ({
       <StickyNav activeSection={activeSection} />
 
       <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Colonne de gauche (principale) */}
         <div className="lg:col-span-2 space-y-6">
           <div id="positionnement-politique" className="scroll-mt-45 lg:scroll-mt-4">
             <PositionnementPolitique 
-              orientation={finalProfile.orientation} 
-              themeClasses={themeClasses}
-              isDark={isDark}
+              topParty={finalProfile} 
+    themeClasses={themeClasses}
+    isDark={isDark}
             />
           </div>
           <div id="parti-vainqueur" className="scroll-mt-45 lg:scroll-mt-4">
@@ -235,13 +221,11 @@ const ResultScreen: React.FC<ResultScreenProps> = ({
           </div>
         </div>
 
-        {/* Colonne de droite (secondaire) */}
         <div className="lg:col-span-1 space-y-6">
           <div id="themes-prioritaires" className="scroll-mt-40 lg:scroll-mt-4">
             <ThemesPrioritaires {...{prioritizedCategories, themeAffinities, isDark, themeClasses, topPartyLogoUrl, topPartyName: finalProfile.name}} />
           </div>
           
-          {/* INTÉGRATION DE LA NOUVELLE TUILE */}
           {biggestDisagreementParty && (
             <ConvergencesInattendues 
               lowRankedParty={biggestDisagreementParty}
@@ -261,7 +245,6 @@ const ResultScreen: React.FC<ResultScreenProps> = ({
         </div>
       </div>
 
-      {/* Pied de page et actions */}
       <div className="px-4 lg:px-0">
         <ActionButtons {...{onRestart, finalResult, isDark}} />
       </div>

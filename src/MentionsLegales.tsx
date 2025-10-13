@@ -30,7 +30,7 @@ const MentionsLegales: React.FC<MentionsLegalesProps> = ({ onBack, isDark }) => 
 
   return (
     <div className={twMerge("w-full font-sans", isDark ? "dark" : "")}>
-      <div className="w-full max-w-4xl mx-auto px-4 py-8 sm:py-12">
+      <div className="w-full max-w-4xl mx-auto py-8 sm:py-12">
 
         <header className="text-center mb-12 sm:mb-16">
 

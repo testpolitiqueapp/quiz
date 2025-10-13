@@ -4,7 +4,6 @@ import { GlassTile } from '../ui/GlassTile';
 import { twMerge } from 'tailwind-merge';
 import type { Question } from '../../questions/types';
 
-// --- INTERFACES ---
 interface ConvictionData {
   question: Question; 
   answer: number; 
@@ -20,7 +19,6 @@ interface AnalyseConvictionProps {
   };
 }
 
-// --- TYPAGE ---
 interface ConvictionStyles {
   text: string;
   Icon: React.ElementType;
@@ -31,7 +29,6 @@ interface ConvictionStyles {
   };
 }
 
-// --- NOUVEAU SOUS-COMPOSANT POUR L'ANIMATION ---
 const AnimatedConvictionCard: React.FC<{ conviction: ConvictionData; type: 'strong' | 'hesitant'; isDark: boolean; themeClasses: AnalyseConvictionProps['themeClasses'] }> = ({ conviction, type, isDark, themeClasses }) => {
   const { question, answer, time } = conviction;
 
@@ -109,23 +106,22 @@ const AnimatedConvictionCard: React.FC<{ conviction: ConvictionData; type: 'stro
 
   return (
     <div className="space-y-4"> 
-      {/* Question */}
       <div className={twMerge("relative p-5 rounded-2xl border-l-4 transition-all duration-300 hover:shadow-lg hover:-translate-y-0.5", isDark ? 'border-l-slate-400 border border-slate-700/30 bg-slate-800/60' : 'border-l-slate-400 border border-slate-200/60 bg-slate-100')}>
         <div className="flex items-start gap-4">
-          <div className="relative flex items-center justify-center w-10 h-10 rounded-2xl shadow-lg ring-1 ring-slate-200/50 dark:ring-slate-600/50 bg-gradient-to-br from-slate-100 to-slate-200 dark:from-slate-700 dark:to-slate-800">
+          <div className="relative flex items-center justify-center w-10 h-10 rounded-2xl shadow-lg ring-1 ring-slate-200/50 dark:ring-slate-600/50 bg-gradient-to-br from-slate-100 to-slate-200 dark:from-slate-700 dark:to-slate-800 flex-shrink-0">
             <Quote className="w-6 h-6 text-slate-600 dark:text-slate-300 drop-shadow-sm" />
           </div>
           <p className={twMerge("flex-1 min-w-0 text-base font-medium", themeClasses.text.primary)}>{question.text}</p>
         </div>
       </div>
       
-      {/* Réponse */}
       <div className={twMerge("group relative p-5 rounded-2xl border transition-all duration-300 ease-out hover:shadow-lg hover:shadow-black/5 hover:-translate-y-1 hover:scale-[1.02] cursor-pointer", colorClasses.bg)}>
         <div className="relative flex items-start gap-4">
-          <div className={twMerge("relative flex items-center justify-center w-10 h-10 rounded-2xl shadow-lg ring-1 ring-white/10", colorClasses.iconContainer)}>
+          <div className={twMerge("relative flex items-center justify-center w-10 h-10 rounded-2xl shadow-lg ring-1 ring-white/10 flex-shrink-0", colorClasses.iconContainer)}>
             <Icon 
               className={twMerge("w-6 h-6 text-white drop-shadow-sm", "animate-pop-in-bounce")}
             />
+             <div className="absolute inset-0 rounded-2xl bg-gradient-to-tr from-white/20 to-transparent opacity-60" />
           </div>
           <div className="flex-1 min-w-0">
             <h4 className={twMerge("font-bold text-lg leading-snug", themeClasses.text.primary)}>{answerText}</h4>
@@ -143,8 +139,6 @@ const AnimatedConvictionCard: React.FC<{ conviction: ConvictionData; type: 'stro
   );
 };
 
-
-// --- COMPOSANT PRINCIPAL AVEC ONGLETS ---
 const AnalyseConviction: React.FC<AnalyseConvictionProps> = ({ strongestConviction, mostHesitantAnswer, isDark, themeClasses }) => {
   const [activeTab, setActiveTab] = useState<'strong' | 'hesitant'>(strongestConviction ? 'strong' : 'hesitant');
 
@@ -165,43 +159,30 @@ const AnalyseConviction: React.FC<AnalyseConvictionProps> = ({ strongestConvicti
 
   return (
     <GlassTile className="overflow-hidden p-0">
-      {/* NOUVEAU HEADER (Compact et Cohérent) */}
       <div className="relative p-4 pb-3 sm:p-6 sm:pb-4">
         <div className="flex items-start gap-4">
           
-          {/* Bloc Icône (Style Amélioré cohérent) */}
           <div className={twMerge(
-            "relative flex items-center justify-center w-10 h-10 rounded-2xl shadow-lg",
-            "bg-gradient-to-br from-blue-500 to-indigo-600",
-            "ring-1 ring-blue-500/20",
-            "flex-shrink-0",
-            // Style de l'icône amélioré (cohérent)
-            "transform transition-all duration-300 ease-out", 
-            "before:absolute before:inset-0 before:rounded-2xl", 
-            "before:bg-gradient-to-br before:from-white/40 before:to-transparent",
-            "before:opacity-0 hover:before:opacity-100 before:transition-opacity before:duration-300", 
-            "dark:before:from-white/10 dark:before:opacity-20 dark:hover:before:opacity-30",
-            "shadow-blue-500/40 dark:shadow-indigo-700/40", 
-            "hover:shadow-blue-600/60 dark:hover:shadow-indigo-600/60"
+            "group relative flex items-center justify-center w-10 h-10 rounded-2xl shadow-lg transition-all duration-300 flex-shrink-0",
+            "bg-gradient-to-br from-slate-500 to-slate-600 dark:from-slate-600 dark:to-slate-700",
+            "group-hover:scale-105 group-hover:shadow-xl group-hover:shadow-slate-500/30 dark:group-hover:shadow-black/30",
+            "ring-1 ring-slate-900/10 dark:ring-white/10"
           )}>
             <ChartBar className="w-6 h-6 text-white drop-shadow-sm" />
+            <div className="absolute inset-0 rounded-2xl bg-gradient-to-tr from-white/20 to-transparent opacity-60" />
           </div>
           
           <div className="flex-1 min-w-0">
-            {/* Titre Principal (compact) */}
             <h3 className={twMerge("text-xl font-bold tracking-tight leading-snug", themeClasses.text.primary)}>
               Analyse des convictions
             </h3>
-            {/* Sous-titre explicatif (compact) */}
-            <p className={twMerge("text-xs mt-0.5", themeClasses.text.secondary)}>
+            <p className={twMerge("text-sm mt-0.5", themeClasses.text.secondary)}>
               Vos réponses les plus rapides et les plus lentes.
             </p>
           </div>
         </div>
       </div>
-      {/* FIN NOUVEAU HEADER */}
       
-      {/* Onglets (Marge supérieure ajustée) */}
       <div className="px-5 pb-4">
         <div className={twMerge("flex gap-2 p-1 rounded-xl", isDark ? 'bg-slate-900/50' : 'bg-slate-200/70')}>
           {tabs.map(tab => (
@@ -223,7 +204,6 @@ const AnalyseConviction: React.FC<AnalyseConvictionProps> = ({ strongestConvicti
         </div>
       </div>
 
-      {/* Contenu des onglets */}
       <div className="px-5 pb-6">
         {currentTab?.data ? (
           <AnimatedConvictionCard conviction={currentTab.data} type={currentTab.id as 'strong' | 'hesitant'} isDark={isDark} themeClasses={themeClasses} />

@@ -7,7 +7,7 @@ export const PARTIES = [
     personalityPhotos: ["/images/personnalites/philippe-poutou.jpg", "/images/personnalites/olivier-besancenot.jpg"],
     description: "Votre positionnement est en faveur de changements radicaux de la société.",
     logo: { light: "/images/logospartis/light/NPA.png", dark: "/images/logospartis/dark/NPA.png" },
-    color: { light: '#C40000', dark: '#C40000' },
+    color: { light: '#a90000', dark: '#a90000' },
     compass: { x: -90, y: -90 },
     radicalism: 0.97,
     cohesion: 0.85
@@ -20,7 +20,7 @@ export const PARTIES = [
     personalityPhotos: ["/images/personnalites/nathalie-arthaud.jpg"],
     description: "Votre projet de société est basé sur le communisme révolutionnaire et la défense des intérêts des travailleurs contre le capital.",
     logo: { light: "/images/logospartis/light/LO.png", dark: "/images/logospartis/dark/LO.png" },
-    color: { light: '#A10000', dark: '#A10000' },
+    color: { light: '#a90000', dark: '#a90000' },
     compass: { x: -100, y: -80 },
     radicalism: 0.95,
     cohesion: 0.98
@@ -33,7 +33,7 @@ export const PARTIES = [
     personalityPhotos: ["/images/personnalites/jean-luc-melenchon.jpg", "/images/personnalites/mathilde-panot.jpg"],
     description: "Votre positionnement est en faveur de changements radicaux de la société pour plus de justice et d'égalité.",
     logo: { light: "/images/logospartis/light/LFI.png", dark: "/images/logospartis/dark/LFI.png" },
-    color: { light: '#DE0707', dark: '#DE0707' },
+    color: { light: '#e10000', dark: '#e10000' },
     compass: { x: -80, y: -70 },
     radicalism: 0.85,
     cohesion: 0.90
@@ -46,7 +46,7 @@ export const PARTIES = [
     personalityPhotos: ["/images/personnalites/fabien-roussel.jpg"],
     description: "Votre positionnement est en faveur des droits des travailleurs, de l'intervention de l'État dans l'économie et des services publics.",
     logo: { light: "/images/logospartis/light/PCF.png", dark: "/images/logospartis/dark/PCF.png" },
-    color: { light: '#B30C0C', dark: '#B30C0C' },
+    color: { light: '#f60000', dark: '#f60000' },
     compass: { x: -75, y: 20 },
     radicalism: 0.60,
     cohesion: 0.70
@@ -59,7 +59,7 @@ export const PARTIES = [
     personalityPhotos: ["/images/personnalites/benoit-hamon.jpg"],
     description: "Votre programme se concentre sur l'écologie, la justice sociale et une démocratie participative.",
     logo: { light: "/images/logospartis/light/Generations.png", dark: "/images/logospartis/dark/Generations.png" },
-    color: { light: '#BA0944', dark: '#BA0944' },
+    color: { light: '#f6004a', dark: '#f6004a' },
     compass: { x: -60, y: -60 },
     radicalism: 0.70,
     cohesion: 0.60
@@ -72,7 +72,7 @@ export const PARTIES = [
     personalityPhotos: ["/images/personnalites/olivier-faure.jpg", "/images/personnalites/anne-hidalgo.jpg", "/images/personnalites/francois-hollande.jpg", "/images/personnalites/raphael-glucksmann.jpg"],
     description: "Vous croyez en un État-providence fort qui régule l'économie tout en défendant les libertés individuelles.",
     logo: { light: "/images/logospartis/light/PS.png", dark: "/images/logospartis/dark/PS.png" },
-    color: { light: '#D11F99', dark: '#D11F99' },
+    color: { light: '#f60085', dark: '#f60085' },
     compass: { x: -40, y: -30 },
     radicalism: 0.35,
     cohesion: 0.40
@@ -98,7 +98,7 @@ export const PARTIES = [
     personalityPhotos: ["/images/personnalites/guillaume-lacroix.jpg"],
     description: "Vous défendez un libéralisme social, où l'économie de marché est tempérée par des politiques de justice sociale.",
     logo: { light: "/images/logospartis/light/PRG.png", dark: "/images/logospartis/dark/PRG.png" },
-    color: { light: '#EDB500', dark: '#EDB500' },
+    color: { light: '#e200f6', dark: '#e200f6' },
     compass: { x: -20, y: -40 },
     radicalism: 0.25,
     cohesion: 0.65
@@ -202,7 +202,7 @@ export const PARTIES = [
     personalityPhotos: ["/images/personnalites/nicolas-dupont-aignan.jpg"],
     description: "Vous défendez la souveraineté de la France et un État qui protège son économie, ses valeurs et ses frontières.",
     logo: { light: "/images/logospartis/light/DLF.png", dark: "/images/logospartis/dark/DLF.png" },
-    color: { light: '#047857', dark: '#6ee7b7' },
+    color: { light: '#1d09ff', dark: '#1d09ff' },
     compass: { x: 50, y: 80 },
     radicalism: 0.80,
     cohesion: 0.90
