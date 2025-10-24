@@ -256,10 +256,10 @@ export const PositionnementPolitique: React.FC<PositionnementPolitiqueProps> = (
                       "transition-all duration-300",
                       isHovered ? "scale-125 ring-offset-4" : "scale-100" // Utilise 'isHovered' du parent
                     )}
-                    style={{ 
-                      ringOffsetColor: partyColor,
+                  style={{ 
+                      '--tw-ring-offset-color': partyColor,
                       boxShadow: `0 4px 24px ${partyColor}60, 0 0 0 1px ${partyColor}40`
-                    }}
+                    } as React.CSSProperties} 
                   >
                     {/* Point central pulsant */}
                     <div 
