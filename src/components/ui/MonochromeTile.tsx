@@ -9,7 +9,7 @@ interface MonochromeTileProps {
 export const MonochromeTile: React.FC<MonochromeTileProps> = ({ children, className }) => {
   const baseClasses = `
     // --- Structure & Layout ---
-    rounded-2xl
+    rounded-3xl
     p-6
 
     // --- Light Mode (Glass Effect) ---

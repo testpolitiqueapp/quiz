@@ -28,7 +28,7 @@ export const GlassTile: React.FC<GlassTileProps> = ({ children, className, ..._r
   return (
     <div
       className={twMerge(
-        'relative rounded-2xl overflow-hidden',
+        'relative rounded-3xl overflow-hidden',
         lightModeClasses,
         darkModeClasses,
         className

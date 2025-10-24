@@ -64,20 +64,7 @@ export const PARTIES = [
     radicalism: 0.70,
     cohesion: 0.60
   },
-  { 
-    id: "PS", 
-    name: "Parti Socialiste", 
-    orientation: "Gauche", 
-    personality: "Olivier Faure, Anne Hidalgo, François Hollande, Raphaël Glucksmann",
-    personalityPhotos: ["/images/personnalites/olivier-faure.jpg", "/images/personnalites/anne-hidalgo.jpg", "/images/personnalites/francois-hollande.jpg", "/images/personnalites/raphael-glucksmann.jpg"],
-    description: "Vous croyez en un État-providence fort qui régule l'économie tout en défendant les libertés individuelles.",
-    logo: { light: "/images/logospartis/light/PS.png", dark: "/images/logospartis/dark/PS.png" },
-    color: { light: '#f60085', dark: '#f60085' },
-    compass: { x: -40, y: -30 },
-    radicalism: 0.35,
-    cohesion: 0.40
-  },
-  { 
+   { 
     id: "EELV", 
     name: "Les Écologistes", 
     orientation: "Gauche écologiste", 
@@ -89,6 +76,19 @@ export const PARTIES = [
     compass: { x: -60, y: -70 },
     radicalism: 0.70,
     cohesion: 0.50
+  },
+  { 
+    id: "PS", 
+    name: "Parti Socialiste", 
+    orientation: "Gauche", 
+    personality: "Olivier Faure, Anne Hidalgo, François Hollande",
+    personalityPhotos: ["/images/personnalites/olivier-faure.jpg", "/images/personnalites/anne-hidalgo.jpg", "/images/personnalites/francois-hollande.jpg"],
+    description: "Vous croyez en un État-providence fort qui régule l'économie tout en défendant les libertés individuelles.",
+    logo: { light: "/images/logospartis/light/PS.png", dark: "/images/logospartis/dark/PS.png" },
+    color: { light: '#f60085', dark: '#f60085' },
+    compass: { x: -40, y: -30 },
+    radicalism: 0.35,
+    cohesion: 0.40
   },
     { 
     id: "PRG", 
@@ -129,19 +129,6 @@ export const PARTIES = [
     radicalism: 0.40,
     cohesion: 0.50
   },
-  { 
-    id: "Horizons", 
-    name: "Horizons", 
-    orientation: "Centre droit", 
-    personality: "Édouard Philippe",
-    personalityPhotos: ["/images/personnalites/edouard-philippe.jpg"],
-    description: "Vous êtes en faveur du libre marché et de moins d'intervention de l'État, avec une certaine fermeté sur la sécurité.",
-    logo: { light: "/images/logospartis/light/Horizons.png", dark: "/images/logospartis/dark/Horizons.png" },
-    color: { light: '#0CABCF', dark: '#0CABCF' },
-    compass: { x: 40, y: 40 },
-    radicalism: 0.50,
-    cohesion: 0.70
-  },
   {
     id: "UDI",
     name: "Union des Démocrates et Indépendants",
@@ -154,6 +141,19 @@ export const PARTIES = [
     compass: { x: 40, y: -10 },
     radicalism: 0.35,
     cohesion: 0.55
+  },
+  { 
+    id: "Horizons", 
+    name: "Horizons", 
+    orientation: "Centre droit", 
+    personality: "Édouard Philippe",
+    personalityPhotos: ["/images/personnalites/edouard-philippe.jpg"],
+    description: "Vous êtes en faveur du libre marché et de moins d'intervention de l'État, avec une certaine fermeté sur la sécurité.",
+    logo: { light: "/images/logospartis/light/Horizons.png", dark: "/images/logospartis/dark/Horizons.png" },
+    color: { light: '#0CABCF', dark: '#0CABCF' },
+    compass: { x: 40, y: 40 },
+    radicalism: 0.50,
+    cohesion: 0.70
   },
     { 
     id: "LR", 

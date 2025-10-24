@@ -9,7 +9,7 @@ interface OpaqueGlassTileProps {
 export const OpaqueGlassTile: React.FC<OpaqueGlassTileProps> = ({ children, className }) => {
   const baseClasses = `
     // --- Structure & Layout ---
-    rounded-2xl
+    rounded-3xl
     p-6
 
     // --- Light Mode (Opaque) ---

@@ -1,7 +1,7 @@
-import { Clock, Zap, Brain, Rocket, Target, Anchor } from 'lucide-react';
+import { Zap, Brain, Rocket, Target, Anchor } from 'lucide-react';
 import { GlassTile } from '../ui/GlassTile';
 import { twMerge } from 'tailwind-merge';
-import React, { useState, useEffect, useRef } from 'react'; 
+import React, { useState, useEffect, useRef } from 'react';
 
 interface TempsDeReponseProps {
   averageTime: number;
@@ -11,8 +11,9 @@ interface TempsDeReponseProps {
   };
 }
 
+// La fonction getSpeedProfile reste inchangée
 const getSpeedProfile = (averageTime: number, isDark: boolean) => {
-  if (averageTime < 3000) { 
+  if (averageTime < 3000) {
     return {
       label: "Fusée",
       description: "Vos réponses sont quasi-instantanées, un vrai réflexe !",
@@ -21,7 +22,7 @@ const getSpeedProfile = (averageTime: number, isDark: boolean) => {
       animationClass: "animate-shake-n-pulse",
     };
   }
-  if (averageTime < 6000) { 
+  if (averageTime < 6000) {
     return {
       label: "Vif",
       description: "Vous prenez des décisions spontanées et intuitives !",
@@ -30,7 +31,7 @@ const getSpeedProfile = (averageTime: number, isDark: boolean) => {
       animationClass: "animate-shake-n-pulse",
     };
   }
-  if (averageTime < 10000) { 
+  if (averageTime < 10000) {
     return {
       label: "Mesuré",
       description: "Vous alliez vitesse et réflexion pour des choix équilibrés.",
@@ -39,7 +40,7 @@ const getSpeedProfile = (averageTime: number, isDark: boolean) => {
       animationClass: "",
     };
   }
-  if (averageTime < 13000) { 
+  if (averageTime < 13000) {
     return {
       label: "Réfléchi",
       description: "Vous prenez le temps de bien analyser avant de répondre.",
@@ -58,22 +59,26 @@ const getSpeedProfile = (averageTime: number, isDark: boolean) => {
 };
 
 const TempsDeReponse: React.FC<TempsDeReponseProps> = ({ averageTime, isDark, themeClasses }) => {
-  const [count, setCount] = useState(0); 
-  
-  const counterRef = useRef<HTMLDivElement>(null); 
+  const [count, setCount] = useState(0);
+  const counterRef = useRef<HTMLDivElement>(null);
   const [isInView, setIsInView] = useState(false);
+
+  // États d'animation
+  const [isMounted, setIsMounted] = useState(false);
+  const [isHovered, setIsHovered] = useState(false); // Gardé pour des effets subtils
+
+  useEffect(() => {
+    const mountTimer = setTimeout(() => setIsMounted(true), 100);
+    return () => clearTimeout(mountTimer);
+  }, []);
 
   const speedProfile = getSpeedProfile(averageTime, isDark);
   const SpeedIcon = speedProfile.Icon;
 
-  const containerClasses = isDark 
-    ? "bg-slate-800/60 border-slate-700/50" 
-    : "bg-white border-slate-200/80";
-
+  // L'IntersectionObserver reste le même
   useEffect(() => {
     const currentRef = counterRef.current;
     if (!currentRef) return;
-
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
@@ -81,118 +86,113 @@ const TempsDeReponse: React.FC<TempsDeReponseProps> = ({ averageTime, isDark, th
           observer.unobserve(currentRef);
         }
       },
-      {
-        root: null,
-        rootMargin: '0px',
-        threshold: 0.1, 
-      }
+      { threshold: 0.1 }
     );
-
     observer.observe(currentRef);
-
-    return () => {
-      if (currentRef) {
-        observer.unobserve(currentRef);
-      }
-    };
+    return () => { if (currentRef) observer.unobserve(currentRef); };
   }, []);
 
+  // L'animation de comptage reste la même
   useEffect(() => {
       if (!isInView) return;
-
       const finalTime = averageTime / 1000;
       const duration = 500; 
       let startTimestamp: DOMHighResTimeStamp | null = null;
-
       const step: FrameRequestCallback = (timestamp) => {
           if (!startTimestamp) startTimestamp = timestamp;
           const progress = timestamp - startTimestamp;
           const fraction = Math.min(progress / duration, 1);
-          
           const currentValue = (fraction * finalTime).toFixed(1);
           setCount(parseFloat(currentValue));
-
           if (fraction < 1) {
               requestAnimationFrame(step);
           }
       };
-
       requestAnimationFrame(step);
-
       return () => setCount(0); 
   }, [isInView, averageTime]);
   
   const displayedTime = (count || 0).toFixed(1);
 
-
   return (
-    <GlassTile className="overflow-hidden p-0">
-      
-      <div className="relative p-4 pb-0 sm:p-6 sm:pb-0">
-        <div className="flex items-center gap-4 mb-3">
-          
-          <div className={twMerge(
-            "group relative flex items-center justify-center w-10 h-10 rounded-2xl shadow-lg transition-all duration-300 flex-shrink-0",
-            "bg-gradient-to-br from-slate-500 to-slate-600 dark:from-slate-600 dark:to-slate-700",
-            "group-hover:scale-105 group-hover:shadow-xl group-hover:shadow-slate-500/30 dark:group-hover:shadow-black/30",
-            "ring-1 ring-slate-900/10 dark:ring-white/10"
-          )}>
-            <Clock className="w-6 h-6 text-white drop-shadow-sm" />
-            <div className="absolute inset-0 rounded-2xl bg-gradient-to-tr from-white/20 to-transparent opacity-60" />
-          </div>
-          
-          <div className="flex-1 min-w-0">
-            <h3 className={twMerge("text-xl font-bold tracking-tight leading-snug", themeClasses.text.primary)}>
-              Temps de réponse
-            </h3>
-            <p className={twMerge("text-sm mt-0.5", themeClasses.text.secondary)}>
-              {speedProfile.description}
-            </p>
-          </div>
-        </div>
-      </div>
-      
-      <div className="px-5 pb-6 pt-4"> 
-        <div 
-          className={twMerge(
-            "group relative p-6 rounded-2xl border text-center",
-            "transition-all duration-300 ease-out",
-            "hover:shadow-lg hover:shadow-black/5 hover:-translate-y-1",
-            "hover:scale-[1.02]",
-            containerClasses 
-          )}
-        >
-          <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-white/0 via-white/5 to-white/0 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-          
-          <div className="relative">
-            <div className="mb-3" ref={counterRef}>
-              <p className={twMerge("text-5xl font-bold tabular-nums", themeClasses.text.primary, "tracking-tight")}>
-                {displayedTime}
-                <span className={twMerge("text-2xl font-medium ml-1", themeClasses.text.secondary)}>
-                  s
-                </span>
-              </p>
-              <p className={twMerge("text-xs", themeClasses.text.secondary, "opacity-80")}>
-                en moyenne par question
-              </p>
-            </div>
+    // ======= CORRECTION ICI =======
+    // 1. On crée un <div> conteneur qui gère les événements et l'animation d'apparition
+    <div
+      className={twMerge(
+        "transition-all duration-700 ease-out h-full", // Animation d'apparition + h-full
+        !isMounted ? "opacity-0 translate-y-8 scale-[0.98]" : "opacity-100 translate-y-0 scale-100"
+      )}
+      onMouseEnter={() => setIsHovered(true)} 
+      onMouseLeave={() => setIsHovered(false)}
+    >
+      <GlassTile 
+        className={twMerge(
+          "relative p-6 sm:p-8 overflow-hidden", // Padding appliqué directement
+          "flex flex-col items-center justify-center text-center h-full" // Centrage total
+          // 2. On a retiré les classes d'animation et les événements d'ici
+        )}
+      >
+        
+        {/* 1. Titre (contexte) */}
+        <p className={twMerge(
+          "text-xs mb-2 font-medium tracking-wide uppercase", // Style sous-titre
+          themeClasses.text.secondary,
+          "opacity-60"
+        )}>
+          Temps de réponse moyen
+        </p>
 
-            <div className="flex justify-center">
-              <span className={twMerge(
-                "px-4 py-2 rounded-full text-sm font-medium ring-1",
-                "inline-flex items-center gap-2",
-                speedProfile.badgeColors 
-              )}>
-                <SpeedIcon 
-                  className={twMerge("w-4 h-4", speedProfile.animationClass)}
-                />
-                {speedProfile.label}
-              </span>
-            </div>
+        {/* 2. Métrique principale (le temps) */}
+        <div 
+          className="relative mb-4" 
+          ref={counterRef} 
+        >
+          <div className="flex items-baseline justify-center">
+            <span className={twMerge(
+              "text-7xl sm:text-8xl font-extrabold tabular-nums tracking-tighter", // Style impactant
+              "bg-gradient-to-br from-slate-900 to-slate-700 dark:from-white dark:to-slate-300", // Dégradé
+              "bg-clip-text text-transparent" // Effet de texte
+            )}>
+              {displayedTime}
+            </span>
+            <span className={twMerge(
+              "text-3xl sm:text-4xl font-semibold ml-1", // Unité large mais secondaire
+              themeClasses.text.secondary,
+              "opacity-50 -translate-y-1" // Ajustement visuel
+            )}>
+              s
+            </span>
           </div>
         </div>
-      </div>
-    </GlassTile>
+
+        {/* 3. Badge de profil */}
+        <div className="mb-3"> {/* Marge pour séparer de la description */}
+          <span className={twMerge(
+            "px-4 py-2 rounded-full text-sm font-medium ring-1",
+            "inline-flex items-center gap-2",
+            "transition-all duration-300",
+            isHovered ? "scale-105" : "scale-100", // Effet au survol (utilise l'état 'isHovered' du parent)
+            speedProfile.badgeColors 
+          )}>
+            <SpeedIcon 
+              className={twMerge("w-4 h-4", speedProfile.animationClass)}
+            />
+            {speedProfile.label}
+          </span>
+        </div>
+        
+        {/* 4. Description */}
+        <p className={twMerge(
+          "text-sm max-w-xs", // Limite la largeur pour la lisibilité
+          themeClasses.text.secondary,
+          "opacity-90"
+        )}>
+          {speedProfile.description}
+        </p>
+
+      </GlassTile>
+    </div>
+    // ======= FIN DE LA CORRECTION =======
   );
 };
 
