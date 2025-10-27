@@ -95,7 +95,7 @@ export const InviteButton: React.FC<InviteButtonProps> = ({
               const listItemContent = (
                 <>
                   <div className={twMerge(
-                    "relative flex items-center justify-center w-8 h-8 rounded-lg shadow-md mr-2",
+                    "relative flex items-center justify-center w-8 h-8 rounded-xl shadow-md mr-2",
                     "ring-1 ring-white/10 transition-all duration-300",
                     isCopySuccess
                       ? "bg-gradient-to-br from-emerald-500 to-green-600"
@@ -124,7 +124,7 @@ export const InviteButton: React.FC<InviteButtonProps> = ({
               const listItemProps = {
                 key: option.id,
                 className: twMerge(
-                  "group flex w-full items-center text-left p-1.5 rounded-lg transition-all duration-200",
+                  "group flex w-full items-center text-left p-1.5 rounded-xl transition-all duration-200",
                   "hover:bg-slate-100 dark:hover:bg-slate-700/50 active:scale-[0.98]",
                   isCopySuccess && "bg-emerald-50/80 dark:bg-emerald-950/20"
                 ),

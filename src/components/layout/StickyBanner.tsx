@@ -5,6 +5,7 @@ import { MonochromeTile } from '../ui/MonochromeTile';
 import { OpaqueGlassTile } from '../ui/OpaqueGlassTile';
 
 const useTheme = () => {
+  // ... (code inchangé)
   const [isDark, setIsDark] = useState(false);
 
   useEffect(() => {
@@ -32,6 +33,7 @@ interface StickyBannerProps {
 const StickyBanner: React.FC<StickyBannerProps> = ({ onNavigateToAlgorithm, onNavigateToLegal, onNavigateToPartiesData }) => { // Ajout de la props
 
   const { isDark } = useTheme();
+  // ... (code inchangé)
   const [openTooltip, setOpenTooltip] = useState<TooltipType>(null);
   const [isCompassClicked, setIsCompassClicked] = useState(false);
   const buttonsRef = useRef<HTMLDivElement>(null);
@@ -95,9 +97,10 @@ const StickyBanner: React.FC<StickyBannerProps> = ({ onNavigateToAlgorithm, onNa
       isScrolled ? 'opacity-60 hover:opacity-100' : 'opacity-100'
     )}>
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
-        <MonochromeTile className="flex items-center justify-between p-4 rounded-2xl shadow-lg">
+        <MonochromeTile className="flex items-center justify-between p-4 rounded-3xl shadow-lg">
           
           <a href="/" onClick={handleResetAndReload} className="flex items-center space-x-2 group">
+             {/* ... (Logo et Titre - inchangés) */}
             <div className={twMerge(
               "relative flex items-center justify-center w-10 h-10 rounded-2xl shadow-lg transition-all duration-300",
               "bg-gradient-to-br from-blue-500 to-indigo-600",
@@ -128,13 +131,15 @@ const StickyBanner: React.FC<StickyBannerProps> = ({ onNavigateToAlgorithm, onNa
             </div>
           </a>
 
-          <div className="flex items-center" ref={buttonsRef}>
+          <div className="flex items-center gap-1" ref={buttonsRef}>
             
+            {/* BOUTON HOME AMÉLIORÉ */}
             <a 
               href="/" 
               onClick={() => { setOpenTooltip(null); handleResetAndReload(); }} 
               className={twMerge(
                 "p-2 rounded-xl transition-all duration-200",
+                "ring-1 ring-slate-900/5 dark:ring-white/10", // AJOUT: Contour subtil
                 "hover:bg-slate-100/50 dark:hover:bg-slate-800/50",
                 "focus:outline-none focus:ring-2 focus:ring-blue-500/50",
                 "active:scale-95"
@@ -142,35 +147,44 @@ const StickyBanner: React.FC<StickyBannerProps> = ({ onNavigateToAlgorithm, onNa
               aria-label="Accueil"
             >
               <Home className={twMerge(
-                "w-4 h-4 transition-colors duration-200",
+                "w-4 h-4 transition-colors duration-200", // MODIFIÉ: Taille
                 isDark ? 'text-slate-400 hover:text-slate-200' : 'text-slate-500 hover:text-slate-700'
               )} />
             </a>
             
             <div className="relative">
+              {/* BOUTON HELPCIRCLE AMÉLIORÉ */}
               <button
                 onClick={() => handleTooltipToggle('about')}
                 className={twMerge(
                   "p-2 rounded-xl transition-all duration-200",
+                  "ring-1 ring-slate-900/5 dark:ring-white/10", // AJOUT: Contour subtil
                   "hover:bg-slate-100/50 dark:hover:bg-slate-800/50",
                   "focus:outline-none focus:ring-2 focus:ring-blue-500/50",
                   "active:scale-95",
-                  openTooltip === 'about' && "bg-slate-100/50 dark:bg-slate-800/50"
+                  openTooltip === 'about' && "bg-slate-100 dark:bg-slate-800" // MODIFIÉ: Fond actif
                 )}
                 aria-label="À propos"
                 aria-expanded={openTooltip === 'about'}
               >
                 <HelpCircle className={twMerge(
-                  "w-4 h-4 transition-colors duration-200",
-                  isDark ? 'text-slate-400 hover:text-slate-200' : 'text-slate-500 hover:text-slate-700'
+                  "w-4 h-4 transition-colors duration-200", // MODIFIÉ: Taille
+                  // MODIFIÉ: Logique de couleur pour état actif
+                  openTooltip === 'about'
+                    ? "text-blue-600 dark:text-blue-400"
+                    : (isDark 
+                        ? 'text-slate-400 hover:text-slate-200' 
+                        : 'text-slate-500 hover:text-slate-700')
                 )} />
               </button>
               
               <div className={twMerge(
+                // ... (Tooltip - inchangé)
                 "absolute top-full right-0 mt-3 w-72 max-w-[85vw] origin-top-right transition-all duration-300 z-50",
                 openTooltip === 'about' ? 'scale-100 opacity-100' : 'scale-95 opacity-0 pointer-events-none'
               )}>
-                <OpaqueGlassTile className="rounded-2xl shadow-xl ring-1 ring-slate-200/50 dark:ring-slate-700/50 p-5">
+                <OpaqueGlassTile className="rounded-3xl shadow-xl ring-1 ring-slate-200/50 dark:ring-slate-700/50 p-5">
+                  {/* ... (Contenu du Tooltip 'About' - inchangé) */}
                   <div className="flex items-center justify-between mb-4">
                     <h3 className={twMerge(
                       "font-bold text-lg",
@@ -181,7 +195,7 @@ const StickyBanner: React.FC<StickyBannerProps> = ({ onNavigateToAlgorithm, onNa
                     <button
                       onClick={() => setOpenTooltip(null)}
                       className={twMerge(
-                        "p-1.5 rounded-lg transition-all duration-200",
+                        "p-1.5 rounded-xl transition-all duration-200",
                         "hover:bg-slate-100/50 dark:hover:bg-slate-800/50",
                         "active:scale-95"
                       )}
@@ -215,7 +229,7 @@ const StickyBanner: React.FC<StickyBannerProps> = ({ onNavigateToAlgorithm, onNa
                         rel="noopener noreferrer" 
                         aria-label="Suivez-nous sur Twitter"
                         className={twMerge(
-                          "p-2 rounded-lg transition-all duration-200",
+                          "p-2 rounded-xl transition-all duration-200",
                           "hover:bg-blue-50 dark:hover:bg-blue-950/30",
                           "text-slate-500 hover:text-blue-600 dark:text-slate-400 dark:hover:text-blue-400",
                           "active:scale-95"
@@ -227,7 +241,7 @@ const StickyBanner: React.FC<StickyBannerProps> = ({ onNavigateToAlgorithm, onNa
                         href="#" 
                         aria-label="Suivez-nous sur Facebook"
                         className={twMerge(
-                          "p-2 rounded-lg transition-all duration-200",
+                          "p-2 rounded-xl transition-all duration-200",
                           "hover:bg-blue-50 dark:hover:bg-blue-950/30",
                           "text-slate-500 hover:text-blue-600 dark:text-slate-400 dark:hover:text-blue-400",
                           "active:scale-95"
@@ -274,35 +288,43 @@ const StickyBanner: React.FC<StickyBannerProps> = ({ onNavigateToAlgorithm, onNa
                       <ArrowRight className="w-4 h-4 ml-1 transition-transform group-hover:translate-x-1" />
                     </button>
                   </div>
-
                 </OpaqueGlassTile>
               </div>
             </div>
 
             <div className="relative">
+              {/* BOUTON INFO AMÉLIORÉ */}
               <button
                 onClick={() => handleTooltipToggle('info')}
                 className={twMerge(
                   "p-2 rounded-xl transition-all duration-200",
+                  "ring-1 ring-slate-900/5 dark:ring-white/10", // AJOUT: Contour subtil
                   "hover:bg-slate-100/50 dark:hover:bg-slate-800/50",
                   "focus:outline-none focus:ring-2 focus:ring-blue-500/50",
                   "active:scale-95",
-                  openTooltip === 'info' && "bg-slate-100/50 dark:bg-slate-800/50"
+                  openTooltip === 'info' && "bg-slate-100 dark:bg-slate-800" // MODIFIÉ: Fond actif
                 )}
                 aria-label="Information"
                 aria-expanded={openTooltip === 'info'}
               >
                 <Info className={twMerge(
-                  "w-4 h-4 transition-colors duration-200",
-                  isDark ? 'text-slate-400 hover:text-slate-200' : 'text-slate-500 hover:text-slate-700'
+                  "w-4 h-4 transition-colors duration-200", // MODIFIÉ: Taille
+                  // MODIFIÉ: Logique de couleur pour état actif
+                  openTooltip === 'info'
+                    ? "text-blue-600 dark:text-blue-400"
+                    : (isDark 
+                        ? 'text-slate-400 hover:text-slate-200' 
+                        : 'text-slate-500 hover:text-slate-700')
                 )} />
               </button>
               
               <div className={twMerge(
+                // ... (Tooltip - inchangé)
                 "absolute top-full right-0 mt-3 w-80 max-w-[85vw] origin-top-right transition-all duration-300 z-50",
                 openTooltip === 'info' ? 'scale-100 opacity-100' : 'scale-95 opacity-0 pointer-events-none'
               )}>
-                <OpaqueGlassTile className="rounded-2xl shadow-xl ring-1 ring-slate-200/50 dark:ring-slate-700/50 max-h-[70vh] overflow-hidden p-5">
+                <OpaqueGlassTile className="rounded-3xl shadow-xl ring-1 ring-slate-200/50 dark:ring-slate-700/50 max-h-[70vh] overflow-hidden p-5">
+                  {/* ... (Contenu du Tooltip 'Info' - inchangé) */}
                   <div className="flex items-center justify-between mb-4">
                     <h3 className={twMerge(
                       "font-bold text-lg",
@@ -313,7 +335,7 @@ const StickyBanner: React.FC<StickyBannerProps> = ({ onNavigateToAlgorithm, onNa
                     <button
                       onClick={() => setOpenTooltip(null)}
                       className={twMerge(
-                        "p-1.5 rounded-lg transition-all duration-200",
+                        "p-1.5 rounded-xl transition-all duration-200",
                         "hover:bg-slate-100/50 dark:hover:bg-slate-800/50",
                         "active:scale-95"
                       )}
@@ -331,7 +353,7 @@ const StickyBanner: React.FC<StickyBannerProps> = ({ onNavigateToAlgorithm, onNa
                       "space-y-4 text-sm",
                       isDark ? 'text-slate-300' : 'text-slate-600'
                     )}>
-                      <div className="p-4 rounded-2xl bg-gradient-to-br from-blue-50/80 to-blue-100/40 dark:from-blue-950/30 dark:to-blue-900/20 border border-blue-200/30 dark:border-blue-800/30">
+                      <div className="p-4 rounded-3xl bg-gradient-to-br from-blue-50/80 to-blue-100/40 dark:from-blue-950/30 dark:to-blue-900/20 border border-blue-200/30 dark:border-blue-800/30">
                         <p className={twMerge(
                           "font-semibold mb-2",
                           isDark ? 'text-blue-200' : 'text-blue-800'
@@ -343,7 +365,7 @@ const StickyBanner: React.FC<StickyBannerProps> = ({ onNavigateToAlgorithm, onNa
                         </p>
                       </div>
 
-                      <div className="p-4 rounded-2xl bg-gradient-to-br from-green-50/80 to-green-100/40 dark:from-green-950/30 dark:to-green-900/20 border border-green-200/30 dark:border-green-800/30">
+                      <div className="p-4 rounded-3xl bg-gradient-to-br from-green-50/80 to-green-100/40 dark:from-green-950/30 dark:to-green-900/20 border border-green-200/30 dark:border-green-800/30">
                         <p className={twMerge(
                           "font-semibold mb-2",
                           isDark ? 'text-green-200' : 'text-green-800'
@@ -376,7 +398,7 @@ const StickyBanner: React.FC<StickyBannerProps> = ({ onNavigateToAlgorithm, onNa
                                 }}
                                 className="group inline-flex items-center text-sm text-blue-600 dark:text-blue-400 hover:text-blue-500 dark:hover:text-blue-300 font-medium transition-colors w-full text-left"
                             >
-                                <span>Lire l'explication complète de l'algorithme</span>
+                                <span>En savoir plus sur l'algorithme</span>
                                 <ArrowRight className="w-4 h-4 ml-1 transition-transform group-hover:translate-x-1" />
                             </button>
                             
@@ -388,12 +410,12 @@ const StickyBanner: React.FC<StickyBannerProps> = ({ onNavigateToAlgorithm, onNa
                                 }}
                                 className="group inline-flex items-center text-sm text-blue-600 dark:text-blue-400 hover:text-blue-500 dark:hover:text-blue-300 font-medium transition-colors w-full text-left"
                             >
-                                <span>Voir la modélisation des partis (Boussole, Prismes)</span>
+                                <span>Transparence des données</span>
                                 <ArrowRight className="w-4 h-4 ml-1 transition-transform group-hover:translate-x-1" />
                             </button>
                         </div>
                         
-                        <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-700/50">
+                        <div className="p-3 rounded-3xl bg-slate-50 dark:bg-slate-700/50">
                           <p className={twMerge(
                             "text-xs leading-normal",
                             isDark ? 'text-slate-400' : 'text-slate-500'

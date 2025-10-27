@@ -34,7 +34,7 @@ export const GlassButton: React.FC<GlassButtonProps> = ({
     gap-3 
     active:scale-100
     active:translate-y-0 
-    rounded-2xl
+    rounded-3xl
     shadow-lg hover:shadow-xl
     ring-1 ring-white/10
     disabled:opacity-50 disabled:cursor-not-allowed
@@ -91,7 +91,7 @@ export const GlassButton: React.FC<GlassButtonProps> = ({
       className={finalClasses}
       disabled={disabled}
     >
-      <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-white/0 via-white/20 to-white/0 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+      <div className="absolute inset-0 rounded-3xl bg-gradient-to-r from-white/0 via-white/20 to-white/0 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
       
       <span className="relative z-10 flex items-center gap-3">
         {children}

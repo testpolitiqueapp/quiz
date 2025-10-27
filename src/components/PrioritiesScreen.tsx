@@ -190,7 +190,7 @@ const PrioritiesScreen: React.FC<PrioritiesScreenProps> = ({ allCategories, onCo
       >
         <div 
           className={twMerge(
-            "relative cursor-pointer flex flex-col items-center justify-center text-center p-4 h-full rounded-2xl",
+            "relative cursor-pointer flex flex-col items-center justify-center text-center p-4 h-full rounded-3xl",
             "overflow-hidden active:scale-[0.98] transition-transform duration-200",
             // NOUVEAU STYLE POUR LA TUILE ALÉATOIRE
             "bg-gradient-to-br from-slate-700 via-slate-800 to-gray-900", // Dégradé de gris/bleu-gris plus cohérent
@@ -389,7 +389,7 @@ const PrioritiesScreen: React.FC<PrioritiesScreenProps> = ({ allCategories, onCo
 
       <div 
         className={twMerge(
-          "fixed bottom-12 right-[100px] z-40 bg-gradient-to-br from-slate-50 to-white dark:from-slate-800 dark:to-slate-900/90 px-4 py-2 rounded-lg shadow-xl", 
+          "fixed bottom-12 right-[100px] z-40 bg-gradient-to-br from-slate-50 to-white dark:from-slate-800 dark:to-slate-900/90 px-4 py-2 rounded-3xl shadow-xl", 
           "transition-all duration-500 ease-out max-w-[200px] border border-blue-200 dark:border-blue-800/50", 
           isSelectionComplete ? "translate-y-0 opacity-100" : "translate-y-20 opacity-0 pointer-events-none"
         )}
