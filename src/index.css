@@ -90,8 +90,8 @@ html {
   z-index: 0;
   opacity: 0.25;
   transform: scale(1.05);
-  mask-image: radial-gradient(ellipse at center, white 20%, transparent 70%);
-  -webkit-mask-image: radial-gradient(ellipse at center, white 20%, transparent 70%);
+  mask-image: radial-gradient(ellipse at center, white 3%, transparent 90%);
+  -webkit-mask-image: radial-gradient(ellipse at center, white 10%, transparent 70%);
 }
 
 @keyframes fadeInUp {
