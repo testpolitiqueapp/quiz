@@ -94,7 +94,7 @@ const WelcomeScreen: React.FC<{ onStart: () => void }> = ({ onStart }) => {
           {/* --- NOUVEAU BADGE SPÉCIAL 2027 BLEU BLANC ROUGE --- */}
           <div className="mt-4 mb-5 animate-fade-in-up">
             <span className={twMerge(
-              "relative inline-flex items-center gap-3 overflow-hidden rounded-full px-1.5 py-1.5 pr-5 text-sm font-bold tracking-widest uppercase shadow-2xl",
+              "relative inline-flex items-center gap-3 overflow-hidden rounded-full px-1.5 py-1.5 pr-5 text-sm font-bold uppercase shadow-2xl",
               isDark ? "bg-white/10 ring-1 ring-white/20 backdrop-blur-md" : "bg-gray-100 ring-1 ring-black/5 shadow-lg"
             )}>
               {/* Drapeau Français Stylisé */}

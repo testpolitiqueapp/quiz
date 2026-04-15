@@ -82,7 +82,7 @@ html {
 
 /* Styles et Animations WelcomeScreen */
 .welcome-background {
-  background-image: url('/images/assemblee-min.webp');
+  background-image: url('/images/ici.jpg');
   background-size: cover;
   background-position: center;
   position: absolute;
