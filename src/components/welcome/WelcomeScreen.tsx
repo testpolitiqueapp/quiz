@@ -29,6 +29,7 @@ const WelcomeScreen: React.FC<{ onStart: () => void }> = ({ onStart }) => {
   const initialCount = 1200; // Votre base de départ
 
   useEffect(() => {
+    // Fonction pour charger le compteur depuis Firebase
     const getCounter = async () => {
       try {
         const docSnap = await getDoc(counterDocRef);
@@ -50,7 +51,7 @@ const WelcomeScreen: React.FC<{ onStart: () => void }> = ({ onStart }) => {
     if (participantCount !== null) {
       setParticipantCount(participantCount + 1);
     }
-
+    
     try {
       await setDoc(counterDocRef, { value: increment(1) }, { merge: true });
     } catch (error) {
@@ -61,10 +62,8 @@ const WelcomeScreen: React.FC<{ onStart: () => void }> = ({ onStart }) => {
       onStart();
     }, 100);
   };
-
-  const [isDark, setIsDark] = useState(
-    () => window.matchMedia?.('(prefers-color-scheme: dark)').matches ?? true
-  );
+  
+  const [isDark, setIsDark] = useState(() => window.matchMedia?.('(prefers-color-scheme: dark)').matches ?? true);
 
   useEffect(() => {
     const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
@@ -90,22 +89,29 @@ const WelcomeScreen: React.FC<{ onStart: () => void }> = ({ onStart }) => {
   return (
     <div className="w-full font-sans">
       <div className="relative flex min-h-[600px] w-full flex-col items-center justify-center overflow-hidden text-center">
-        <div className="welcome-background"></div>
+        <div className="welcome-background"></div> 
         <div className="relative z-[2] flex max-w-4xl flex-col items-center px-1 pt-4 sm:pt-0">
 
-          {/* Badge adapté à la Présidentielle 2027 */}
+          {/* --- BADGE SPÉCIAL 2027 (Bleu, Blanc, Rouge) --- */}
           <div className="mt-4 mb-5 animate-fade-in-up">
-            <span className="inline-block transform rounded-full bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-700 px-4 py-1.5 text-sm font-bold uppercase tracking-wider text-white shadow-lg">
-              Spécial Présidentielle 2027
+            <span className="inline-flex items-center gap-2 transform rounded-full bg-gradient-to-r from-[#002395] via-[#ffffff] to-[#ed2939] p-[1.5px] shadow-lg">
+              <span className={twMerge(
+                "flex items-center px-4 py-1.5 rounded-full text-sm font-bold uppercase tracking-widest",
+                isDark ? "bg-black/40 text-white" : "bg-white/80 text-gray-900"
+              )}>
+                <span className="mr-2 h-2 w-2 rounded-full bg-[#002395]" />
+                Spécial 2027
+                <span className="ml-2 h-2 w-2 rounded-full bg-[#ed2939]" />
+              </span>
             </span>
           </div>
 
           <h1 className={`text-6xl sm:text-8xl font-extrabold ${themeClasses.text.primary} tracking-tight mb-6 leading-none drop-shadow-md animate-fade-in-up text-balance`}>
-            Quel candidat de 2027 vous correspond le plus ?
+            Quel est votre profil politique ?
           </h1>
 
           <p className={`text-lg ${themeClasses.text.secondary} max-w-2xl mx-auto leading-snug drop-shadow-md animate-fade-in-up delay-100`}>
-            Répondez à quelques questions pour découvrir votre positionnement dans la course à la présidentielle de 2027 et le candidat le plus proche de vos idées.
+            Notre algorithme analyse vos réponses pour vous situer dans le paysage politique français.
           </p>
 
           <div className="w-full my-5 sm:my-6 animate-fade-in-up delay-200">
@@ -120,12 +126,12 @@ const WelcomeScreen: React.FC<{ onStart: () => void }> = ({ onStart }) => {
                 icon={<ArrowRight className="w-10 h-10" />}
                 className="px-10 py-5 text-2xl"
               >
-                Lancer le test
+                Commencer
               </GlassButton>
               <p className={`text-sm ${themeClasses.text.secondary} font-medium`}>
                 {participantCount === null
                   ? 'Chargement...'
-                  : `${participantCount.toLocaleString('fr-FR')} personnes ont déjà testé leur profil pour 2027 !`
+                  : `${participantCount.toLocaleString('fr-FR')} personnes ont déjà essayé !`
                 }
               </p>
             </div>
@@ -133,9 +139,9 @@ const WelcomeScreen: React.FC<{ onStart: () => void }> = ({ onStart }) => {
           </div>
 
           <div className={`flex flex-wrap items-center justify-center gap-x-4 gap-y-1 text-xs ${themeClasses.text.secondary} font-medium mt-6 drop-shadow-md animate-fade-in-up delay-400`}>
-            <CheckItem text="Test gratuit en 5 minutes" />
-            <CheckItem text="Projection présidentielle 2027" />
-            <CheckItem text="Résultat immédiat et sans inscription" />
+            <CheckItem text="Analyse gratuite en 5 minutes" />
+            <CheckItem text="Résultats instantanés" />
+            <CheckItem text="Aucune donnée personnelle collectée" />
           </div>
         </div>
       </div>
