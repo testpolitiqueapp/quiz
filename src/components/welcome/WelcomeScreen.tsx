@@ -125,7 +125,7 @@ const WelcomeScreen: React.FC<{ onStart: () => void }> = ({ onStart }) => {
               <p className={`text-sm ${themeClasses.text.secondary} font-medium`}>
                 {participantCount === null
                   ? 'Chargement...'
-                  : `${participantCount.toLocaleString('fr-FR')} personnes ont déjà testé leur profil 2027 !`
+                  : `${participantCount.toLocaleString('fr-FR')} personnes ont déjà testé leur profil pour 2027 !`
                 }
               </p>
             </div>
